@@ -19,22 +19,27 @@
   <meta name="author" content="Yichen Wu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="欢迎来到我的博客！这里会分享我对技术、生活等方面的见解。">
+    <meta name="description" content="FIM（Fisher Information Matrix，费舍尔信息矩阵）费舍尔信息矩阵（FIM） 用来度量 参数估计的精度。它描述了在给定观测数据的条件下，我们对模型参数（例如位置、速度、角度等）能了解多少信息；信息越多，理论上能把参数估得越精确。 定义对标量参数 $(\theta)$：$[\mathrm{FIM}(\theta)&#x3D; \mathcal I(\theta)&#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="尝试">
-<meta property="og:url" content="http://example.com/2025/08/15/%E5%B0%9D%E8%AF%95/index.html">
+<meta property="og:title" content="【知识补充】克拉美罗界相关推导和计算">
+<meta property="og:url" content="http://example.com/2025/08/20/%E5%85%8B%E6%8B%89%E7%BE%8E%E7%BD%97/index.html">
 <meta property="og:site_name" content="Weason&#39;s home">
-<meta property="og:description" content="欢迎来到我的博客！这里会分享我对技术、生活等方面的见解。">
+<meta property="og:description" content="FIM（Fisher Information Matrix，费舍尔信息矩阵）费舍尔信息矩阵（FIM） 用来度量 参数估计的精度。它描述了在给定观测数据的条件下，我们对模型参数（例如位置、速度、角度等）能了解多少信息；信息越多，理论上能把参数估得越精确。 定义对标量参数 $(\theta)$：$[\mathrm{FIM}(\theta)&#x3D; \mathcal I(\theta)&#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-08-14T18:06:37.000Z">
-<meta property="article:modified_time" content="2025-08-15T05:44:41.412Z">
+<meta property="og:image" content="http://example.com/image-1.png">
+<meta property="article:published_time" content="2025-08-20T10:06:37.000Z">
+<meta property="article:modified_time" content="2025-08-27T09:35:41.917Z">
 <meta property="article:author" content="Yichen Wu">
-<meta property="article:tag" content="OFDM">
+<meta property="article:tag" content="克拉美罗">
+<meta property="article:tag" content="FIM">
+<meta property="article:tag" content="费舍尔信息矩阵">
+<meta property="article:tag" content="雅可比军阵">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/image-1.png">
   
   
   
-  <title>尝试 - Weason&#39;s home</title>
+  <title>【知识补充】克拉美罗界相关推导和计算 - Weason&#39;s home</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +205,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="尝试"></span>
+            <span id="subtitle" data-typed-text="【知识补充】克拉美罗界相关推导和计算"></span>
           
         </div>
 
@@ -211,8 +216,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-08-14 18:06" pubdate>
-          2025年8月14日 晚上
+        <time datetime="2025-08-20 10:06" pubdate>
+          2025年8月20日 上午
         </time>
       </span>
     
@@ -223,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          25 字
+          1.1k 字
         
       </span>
     
@@ -234,7 +239,7 @@
         
         
         
-          1 分钟
+          10 分钟
         
       </span>
     
@@ -271,12 +276,65 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">尝试</h1>
+            <h1 id="seo-header">【知识补充】克拉美罗界相关推导和计算</h1>
             
             
               <div class="markdown-body">
                 
-                <p>欢迎来到我的博客！这里会分享我对技术、生活等方面的见解。</p>
+                <h1 id="FIM（Fisher-Information-Matrix，费舍尔信息矩阵）"><a href="#FIM（Fisher-Information-Matrix，费舍尔信息矩阵）" class="headerlink" title="FIM（Fisher Information Matrix，费舍尔信息矩阵）"></a>FIM（Fisher Information Matrix，费舍尔信息矩阵）</h1><p><strong>费舍尔信息矩阵（FIM）</strong> 用来度量 <strong>参数估计的精度</strong>。它描述了在给定观测数据的条件下，我们对模型参数（例如位置、速度、角度等）能了解多少信息；信息越多，理论上能把参数估得越精确。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>对<strong>标量参数</strong> $(\theta)$：<br>$[<br>\mathrm{FIM}(\theta)<br>&#x3D; \mathcal I(\theta)<br>&#x3D; -,\mathbb{E}!\left[\frac{\partial^2}{\partial \theta^2},\ln L(\theta)\right],<br>]$<br>其中 $(L(\theta))$ 是 <strong>似然函数</strong>（也常写作 $(p(\text{data}\mid\theta))$）。</p>
+<p>对<strong>向量参数</strong> $(\boldsymbol{\theta}\in\mathbb{R}^p)$：<br>$[<br>\mathbf I(\boldsymbol{\theta})<br>&#x3D; \mathbb{E}!\left[<br>\big(\nabla_{\boldsymbol{\theta}}\ln p(\mathbf x\mid \boldsymbol{\theta})\big)<br>\big(\nabla_{\boldsymbol{\theta}}\ln p(\mathbf x\mid \boldsymbol{\theta})\big)^{!\top}<br>\right]<br>&#x3D; -,\mathbb{E}!\left[\nabla_{\boldsymbol{\theta}}^{2}\ln p(\mathbf x\mid \boldsymbol{\theta})\right].<br>]$</p>
+<h2 id="符号说明"><a href="#符号说明" class="headerlink" title="符号说明"></a>符号说明</h2><ul>
+<li>$(L(\theta)) &#x2F; (p(\mathbf x\mid\theta))$：给定参数时，数据的（对数）似然。</li>
+<li>$(\nabla)、(\nabla^2)$：梯度与海森矩阵（对参数的一阶、二阶导）。</li>
+<li>$(\mathbb{E}[\cdot])$：对数据的期望（在真实参数下）。</li>
+</ul>
+<h2 id="物理意义"><a href="#物理意义" class="headerlink" title="物理意义"></a>物理意义</h2><ul>
+<li><strong>对角线元素</strong>：某个参数自身的“信息量”（可估精度）。</li>
+<li><strong>非对角元素</strong>：参数间的<strong>耦合&#x2F;相关</strong>信息。</li>
+<li><strong>与 CRB 的关系</strong>：FIM 的逆给出 <strong>Cramér–Rao 下界（CRB）</strong>，即无偏估计量方差的理论下限：<ul>
+<li>标量：$(\mathrm{Var}(\hat\theta)\ \ge\ 1&#x2F;\mathcal I(\theta))$  </li>
+<li>向量：$(\mathrm{Cov}(\hat{\boldsymbol{\theta}})\ \succeq\ \mathbf I(\boldsymbol{\theta})^{-1})$</li>
+</ul>
+</li>
+</ul>
+<h2 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h2><ul>
+<li>似然的对数曲线对参数越“陡”（二阶导绝对值越大），表示数据对该参数越敏感 ⇒ <strong>信息越多</strong> ⇒ <strong>可达到的方差下界越小</strong>（估计更准）。</li>
+</ul>
+<h2 id="小例子：定位-到达角估计"><a href="#小例子：定位-到达角估计" class="headerlink" title="小例子：定位&#x2F;到达角估计"></a>小例子：定位&#x2F;到达角估计</h2><ul>
+<li>观测模型（简化）：$(\mathbf x &#x3D; \mathbf a(\theta),s + \mathbf w)$，其中 $(\mathbf a(\theta))$ 是阵列导向向量，$(\mathbf w\sim\mathcal{CN}(0,\sigma^2\mathbf I))$。</li>
+<li>由该模型的似然 $(p(\mathbf x\mid \theta,s)) 可按上式求得 (\mathbf I(\theta, s))$，再用 <strong>Schur 补</strong>消去杂参 $(s)$，得到关于 $(\theta)$ 的等效信息量 $(\mathcal I_\theta)$。</li>
+<li>最终 $(\mathrm{CRB}(\theta)&#x3D;\mathcal I_\theta^{-1})$ 给出 <strong>到达角</strong> 估计的理论精度下界；它随 <strong>阵元数、阵列孔径、快拍数、SNR</strong> 增大而降低（更精确）。</li>
+</ul>
+<h2 id="2-Jacobian-Matrix（雅可比矩阵）"><a href="#2-Jacobian-Matrix（雅可比矩阵）" class="headerlink" title="2. Jacobian Matrix（雅可比矩阵）"></a>2. Jacobian Matrix（雅可比矩阵）</h2><p><strong>雅可比矩阵</strong> 是由向量值函数对其输入变量的一阶偏导数组成的矩阵，刻画多变量函数在某点的局部线性变化率。</p>
+<h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>设向量值函数<br>$[<br>\mathbf{f}(\mathbf{x}) &#x3D; \begin{bmatrix} f_1(\mathbf{x}) \ f_2(\mathbf{x}) \ \vdots \ f_m(\mathbf{x}) \end{bmatrix},<br>\quad \mathbf{x} &#x3D; \begin{bmatrix} x_1 \ x_2 \ \vdots \ x_n \end{bmatrix},<br>]$<br>则雅可比矩阵 $( \mathbf{J}(\mathbf{x}) \in \mathbb{R}^{m \times n} )$ 为<br>$[<br>\mathbf{J}(\mathbf{x}) &#x3D;<br>\begin{bmatrix}<br>\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \<br>\frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_2}{\partial x_n} \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>\frac{\partial f_m}{\partial x_1} &amp; \frac{\partial f_m}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n}<br>\end{bmatrix}.<br>]$</p>
+<h3 id="物理意义-1"><a href="#物理意义-1" class="headerlink" title="物理意义"></a>物理意义</h3><ul>
+<li>反映输出对各输入的小扰动的<strong>灵敏度</strong>与<strong>耦合关系</strong>。</li>
+<li>常用于<strong>线性化</strong>非线性系统（在工作点附近用一阶近似）。</li>
+<li>在优化中用于构造一阶&#x2F;二阶方法（如 Gauss–Newton、Levenberg–Marquardt）。</li>
+</ul>
+<h3 id="例子（定位直觉）"><a href="#例子（定位直觉）" class="headerlink" title="例子（定位直觉）"></a>例子（定位直觉）</h3><p>在目标定位中，传感器的每个测量值都是目标状态（位置、速度等）的函数。雅可比矩阵描述“目标状态微小变化会如何改变各个测量”，从而衡量系统对状态的敏感度。</p>
+<hr>
+<h2 id="3-FIM-与雅可比矩阵的关系"><a href="#3-FIM-与雅可比矩阵的关系" class="headerlink" title="3. FIM 与雅可比矩阵的关系"></a>3. FIM 与雅可比矩阵的关系</h2><ul>
+<li><p>在很多模型（例如高斯噪声、同方差、独立测量）下，<strong>费舍尔信息矩阵（FIM）</strong> 可由雅可比矩阵给出：<br>$[<br>\mathbf{I} ;&#x3D;; \mathbf{J}(\mathbf{t}_u)^{!\top}, \mathbf{J}(\mathbf{t}_u)<br>]$</p>
+<blockquote>
+<p>更一般地，若观测协方差为 $(\boldsymbol{\Sigma})$，则 $(\mathbf{I}&#x3D;\mathbf{J}^{!\top}\boldsymbol{\Sigma}^{-1}\mathbf{J})$。</p>
+</blockquote>
+</li>
+<li><p>这里 $(\mathbf{t}_u)$ 是待估参数向量，$(\mathbf{J}(\mathbf{t}_u))$ 为对该参数的雅可比矩阵。</p>
+</li>
+<li><p>通过 $(\mathbf{I})$ 的逆即可得到 <strong>Cramér–Rao 下界（CRB）</strong>，量化可达估计方差的下界。</p>
+</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>雅可比矩阵</strong>：一阶偏导数组成，度量输入→输出的局部线性映射。</li>
+<li><strong>FIM</strong>：度量“数据对参数的信息量”；常可由雅可比（及噪声协方差）构造。</li>
+<li><strong>联系</strong>：有了 $(\mathbf{J})$ 就能构造 $(\mathbf{I})$，进一步得到 <strong>CRB</strong> 来评估参数估计的理论精度。<br><img src="/image-1.png" srcset="/img/loading.gif" lazyload alt="alt text"><br>论文Cooperative Sensing in Cell-free Massive MIMO  ISAC Systems: Performance Optimization and  Signal Processing中的公式中</li>
+<li>$(J(t_u^N)) 是 (\mathbf t)$ 空间的 FIM。  </li>
+<li>$(P,J(t_u^N),P^{\mathsf T})$ 是关于 $(\mathbf p)$ 的 FIM。  </li>
+<li>CRB：就是它的逆（在可逆、无偏条件下）。</li>
+</ul>
 
                 
               </div>
@@ -295,7 +353,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%97%A5%E5%B8%B8/" class="category-chain-item">日常</a>
+  <a href="/categories/%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" class="category-chain-item">知识补充</a>
   
   
 
@@ -310,7 +368,13 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/OFDM/" class="print-no-link">#OFDM</a>
+        <a href="/tags/%E5%85%8B%E6%8B%89%E7%BE%8E%E7%BD%97/" class="print-no-link">#克拉美罗</a>
+      
+        <a href="/tags/FIM/" class="print-no-link">#FIM</a>
+      
+        <a href="/tags/%E8%B4%B9%E8%88%8D%E5%B0%94%E4%BF%A1%E6%81%AF%E7%9F%A9%E9%98%B5/" class="print-no-link">#费舍尔信息矩阵</a>
+      
+        <a href="/tags/%E9%9B%85%E5%8F%AF%E6%AF%94%E5%86%9B%E9%98%B5/" class="print-no-link">#雅可比军阵</a>
       
     </div>
   
@@ -322,8 +386,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>尝试</div>
-      <div>http://example.com/2025/08/15/尝试/</div>
+      <div>【知识补充】克拉美罗界相关推导和计算</div>
+      <div>http://example.com/2025/08/20/克拉美罗/</div>
     </div>
     <div class="license-meta">
       
@@ -335,7 +399,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年8月14日</div>
+          <div>2025年8月20日</div>
         </div>
       
       
@@ -367,15 +431,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/08/18/%E5%87%B8%E4%BC%98%E5%8C%96/" title="">
+                      <a href="/2025/08/28/%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/" title="【知识补充】通信中的关键技术">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">【知识补充】通信中的关键技术</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2025/08/20/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6&amp;%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/" title="【知识补充】似然函数定义、理解和最大似然函数">
+                        <span class="hidden-mobile">【知识补充】似然函数定义、理解和最大似然函数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

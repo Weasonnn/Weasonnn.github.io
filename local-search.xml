@@ -4,6 +4,189 @@
   
   
   <entry>
+    <title>【知识补充】什么是信道均衡</title>
+    <link href="/2025/08/28/%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1/"/>
+    <url>/2025/08/28/%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1/</url>
+    
+    <content type="html"><![CDATA[<h1 id="什么是信道均衡？"><a href="#什么是信道均衡？" class="headerlink" title="什么是信道均衡？"></a>什么是信道均衡？</h1><ul><li><strong>定义</strong>：把被信道“弄糊了”的接收信号，<strong>用一个补偿滤波器还原清晰</strong>。  </li><li><strong>数学一句话</strong>：若接收信号<br>$[<br>r(t) &#x3D; s(t) * h(t) + n(t)<br>]$<br>（原始信号 * 信道 + 噪声），均衡器 $(g(t))$ 的目标是让<br>$[<br>y(t) &#x3D; r(t) * g(t) \approx s(t)<br>]$<br>即 $(g*h \approx \delta)$（把信道的卷积“反卷积”掉）。</li></ul><hr><h1 id="为什么要均衡？"><a href="#为什么要均衡？" class="headerlink" title="为什么要均衡？"></a>为什么要均衡？</h1><ul><li><strong>多径&#x2F;频率选择性衰落</strong> 会把不同延迟的副本叠在一起，形成 <strong>码间干扰（ISI）</strong>，符号彼此“拖影”。  </li><li><strong>载频偏差&#x2F;多普勒</strong> 会引起相位旋转、频散，让信号失真。  </li><li><strong>结果</strong>：不均衡就难以可靠解调、测距或做高分辨处理。</li></ul><hr><h1 id="它在接收机里做了什么？"><a href="#它在接收机里做了什么？" class="headerlink" title="它在接收机里做了什么？"></a>它在接收机里做了什么？</h1><ol><li><strong>估计信道</strong>：用导频&#x2F;训练序列或盲估计得到 $(h)$（频响或冲激响应）。  </li><li><strong>设计均衡器</strong>：根据 $(h)$ 求一个滤波器 $(g)$，使输出“去卷积”。  </li><li><strong>自适应更新</strong>：信道在变（移动、卫星、多径），均衡器系数随时间更新。</li></ol><hr><h1 id="常见均衡方法（抓核心、看取舍）"><a href="#常见均衡方法（抓核心、看取舍）" class="headerlink" title="常见均衡方法（抓核心、看取舍）"></a>常见均衡方法（抓核心、看取舍）</h1><ul><li><p><strong>线性均衡（LE）</strong>  </p><ul><li><strong>ZF（零迫）</strong>：力求完全消除 ISI；缺点是会 <strong>放大噪声</strong>（尤其当 $(H(f))$ 很小）。  </li><li><strong>MMSE</strong>：在消 ISI 和抑噪之间折中；通常比 ZF <strong>更稳健</strong>，误码更低。</li></ul></li><li><p><strong>判决反馈均衡（DFE）</strong>  </p><ul><li>前馈滤波抑制干扰，再用 <strong>已判决符号</strong> 抵消“后向拖影”；常用于窄带、ISI 重的场景。</li></ul></li><li><p><strong>序列估计（MLSE&#x2F;Viterbi）</strong>  </p><ul><li>把均衡当作“在带记忆信道上做最优序列检测”；性能最好但 <strong>复杂度高</strong>。</li></ul></li><li><p><strong>OFDM 一拍均衡（one-tap）</strong>  </p><ul><li>把频选择信道拍平，每个子载波只需一个复数权值；现代无线、卫星通信普遍采用。</li></ul></li><li><p><strong>MIMO 均衡（空间域）</strong>  </p><ul><li>多天线场景下，做 ZF&#x2F;MMSE、SIC（串行干扰抵消）、或线性+译码联合；本质是“反演信道矩阵”。</li></ul></li><li><p><strong>RAKE&#x2F;分集（补充概念）</strong>  </p><ul><li>在 CDMA&#x2F;UWB 中把多径视作“分集”利用；与均衡互补：均衡倾向消除拖影，RAKE 倾向对齐叠加。</li></ul></li></ul><hr><h1 id="与相关概念的区别"><a href="#与相关概念的区别" class="headerlink" title="与相关概念的区别"></a>与相关概念的区别</h1><ul><li><strong>匹配滤波</strong>：最大化已知波形的输出信噪比；在已受信道扭曲时，往往需先均衡。  </li><li><strong>去卷积&#x2F;反卷积</strong>：通用信号处理概念；通信里更强调实时性和抗噪性，所以叫均衡。  </li><li><strong>相位补偿</strong>：均衡的一部分；完整均衡还要处理幅度和时域拖尾。</li></ul><hr><h1 id="典型流程（直觉版）"><a href="#典型流程（直觉版）" class="headerlink" title="典型流程（直觉版）"></a>典型流程（直觉版）</h1><blockquote><p>“先摸清房间回声（估计信道） → 做一个反向均衡器（去回声） → 声音清晰了（恢复原信号）”。</p></blockquote><hr><h1 id="什么时候用哪一种？"><a href="#什么时候用哪一种？" class="headerlink" title="什么时候用哪一种？"></a>什么时候用哪一种？</h1><ul><li><strong>多径很强、时域拖影明显</strong>：优先 <strong>MMSE 或 DFE</strong>；极端高可靠要求下用 <strong>MLSE</strong>。  </li><li><strong>宽带&#x2F;频率选择性强</strong>：<strong>OFDM + 每载波 MMSE</strong> 最实用。  </li><li><strong>高多普勒&#x2F;相位抖动</strong>：均衡前后都需配 <strong>相位跟踪&#x2F;频偏校正</strong>，常与 <strong>纠错码迭代</strong>（turbo equalization）结合。  </li><li><strong>雷达多径恢复</strong>：回波 &#x3D; 目标回波 * 多径信道 → 做 <strong>逆信道均衡</strong> 后再匹配滤波&#x2F;成像，更利于分辨与抑旁瓣。</li></ul><hr><h1 id="代价与坑"><a href="#代价与坑" class="headerlink" title="代价与坑"></a>代价与坑</h1><ul><li><strong>噪声放大</strong>：ZF 的典型问题。  </li><li><strong>模型失配</strong>：信道估计不准会让均衡“补错刀”。  </li><li><strong>时间变化</strong>：均衡器要自适应，步长太大抖、太小跟不上。  </li><li><strong>复杂度</strong>：MLSE、MIMO-SIC 算法重，工程上常在性能&#x2F;复杂度间折中。</li></ul><hr><h1 id="一句话总结"><a href="#一句话总结" class="headerlink" title="一句话总结"></a>一句话总结</h1><p>信道均衡就是 <strong>用一个可变的“反滤波器”抵消信道造成的拖影与畸变</strong>，让接收端看到“原本应有”的符号&#x2F;波形，降低误码、提升检测与分辨性能。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>通信架构</tag>
+      
+      <tag>均衡</tag>
+      
+      <tag>自适应滤波</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【知识补充】为什么要匹配滤波</title>
+    <link href="/2025/08/28/%E5%8C%B9%E9%85%8D%E6%BB%A4%E6%B3%A2/"/>
+    <url>/2025/08/28/%E5%8C%B9%E9%85%8D%E6%BB%A4%E6%B3%A2/</url>
+    
+    <content type="html"><![CDATA[<h1 id="什么是匹配滤波"><a href="#什么是匹配滤波" class="headerlink" title="什么是匹配滤波"></a>什么是匹配滤波</h1><p>匹配滤波是一种 <strong>信号检测与估计的最优滤波方法</strong>。<br>核心思想是：在接收端，用一个与发射信号“形状完全相同”的滤波器处理接收信号，这样可以在噪声背景下最大化信噪比 (SNR)，更容易检测出有用信号。</p><hr><h2 id="1-形式化表达"><a href="#1-形式化表达" class="headerlink" title="1. 形式化表达"></a>1. 形式化表达</h2><p>设已知发射信号为 $( s(t) )$，接收信号为：</p><p>$[<br>r(t) &#x3D; s(t) + n(t)<br>]$</p><p>其中 $( n(t) )$ 为噪声。  </p><p>匹配滤波器的冲激响应 $( h(t) )$ 设计为：</p><p>$[<br>h(t) &#x3D; s^*(T - t)<br>]$</p><p>即 <strong>发射信号的时间反转和共轭</strong>。<br>这样可以使输出信号能量集中、峰值最大，方便检测。</p><hr><h2 id="2-匹配滤波的作用"><a href="#2-匹配滤波的作用" class="headerlink" title="2. 匹配滤波的作用"></a>2. 匹配滤波的作用</h2><ol><li><p><strong>最大化信噪比 (SNR)</strong><br>在高斯白噪声环境下，匹配滤波能实现最优检测。</p></li><li><p><strong>信号检测</strong>  </p><ul><li>雷达：用于检测回波信号、识别目标。  </li><li>通信：用于检测码元或脉冲。</li></ul></li><li><p><strong>参数估计</strong>  </p><ul><li>输出峰值位置可估计 <strong>到达时间（延迟）</strong> → 推算目标距离。  </li><li>结合多普勒补偿可估计目标速度。</li></ul></li><li><p><strong>抗噪声干扰</strong>  </p><ul><li>匹配滤波能把分布在整个频带的噪声压缩，只留下和已知信号形状相关的能量。</li></ul></li></ol><hr><h2 id="3-直观类比"><a href="#3-直观类比" class="headerlink" title="3. 直观类比"></a>3. 直观类比</h2><p>可以把匹配滤波理解为“钥匙和锁”的关系：  </p><ul><li>发射信号是 <strong>钥匙</strong>。  </li><li>匹配滤波器是 <strong>对应的锁</strong>。  </li><li>在噪声环境里（杂乱的铁片），只有正确的钥匙才能完全插入锁，输出明显峰值。</li></ul><hr><p>✅ <strong>一句话总结</strong>：<br>匹配滤波就是利用一个和发射信号“形状相同”的滤波器，在噪声中以最大信噪比检测并提取有用信号。</p><h1 id="接收端怎么知道发送端发的是信号-s-t-？"><a href="#接收端怎么知道发送端发的是信号-s-t-？" class="headerlink" title="接收端怎么知道发送端发的是信号 s(t)？"></a>接收端怎么知道发送端发的是信号 s(t)？</h1><p>这个问题非常关键。匹配滤波器的前提就是：<strong>接收端必须事先知道发送端发的信号 $(s(t))$</strong>，否则就没法设计滤波器。那接收端是怎么知道的呢？下面分几种典型场景来解释：</p><hr><h2 id="1-通信系统中的情况"><a href="#1-通信系统中的情况" class="headerlink" title="1. 通信系统中的情况"></a>1. 通信系统中的情况</h2><ul><li><strong>已知的导频信号 &#x2F; 训练序列</strong><br>在通信协议里，发送端会在真正传输数据之前，先发送一段 <strong>已知的固定信号</strong>（如前导码、同步序列、训练序列）。  <ul><li>接收端用这段已知信号来设计匹配滤波器。  </li><li>通过检测这段信号在接收序列中的位置，就能完成 <strong>同步、信道估计</strong>，再去解调后续数据。</li></ul></li></ul><p>👉 示例：Wi-Fi、5G、卫星通信里都有导频符号，正是用来做匹配滤波检测和同步的。  </p><hr><h2 id="2-雷达系统中的情况"><a href="#2-雷达系统中的情况" class="headerlink" title="2. 雷达系统中的情况"></a>2. 雷达系统中的情况</h2><ul><li><strong>已知发射脉冲&#x2F;波形</strong><br>雷达是“我发射、我接收”，所以接收端天然知道发射端发的是什么信号（脉冲、LFM、编码脉冲等）。  <ul><li>接收端用这个已知波形作为匹配滤波模板，去检测回波里是否有相似成分。  </li><li>输出的峰值位置 → 目标距离；峰值展宽情况 → 速度或多普勒。</li></ul></li></ul><hr><h2 id="3-卫星-深空通信"><a href="#3-卫星-深空通信" class="headerlink" title="3. 卫星&#x2F;深空通信"></a>3. 卫星&#x2F;深空通信</h2><ul><li><strong>协议规定的标准波形</strong><br>卫星和地面站通信，会预先约定调制方式和信号格式（如 BPSK 调制脉冲形状）。  <ul><li>地面站接收端知道规则，就能设计对应的匹配滤波器。</li></ul></li></ul><hr><h2 id="4-如果信号完全未知怎么办？"><a href="#4-如果信号完全未知怎么办？" class="headerlink" title="4. 如果信号完全未知怎么办？"></a>4. 如果信号完全未知怎么办？</h2><p>如果接收端完全不知道发射端发的是什么信号，就不能用匹配滤波，只能依赖：  </p><ul><li><strong>能量检测</strong>（检测功率变化）；  </li><li><strong>自适应&#x2F;盲检测</strong>（统计特征推断信号形式）。</li></ul><p>但这些方法的性能比匹配滤波差得多。  </p><hr><p>✅ <strong>总结</strong>：<br>接收端之所以能知道 $(s(t))$，是因为在实际系统里 <strong>信号波形是预先约定的</strong> ——要么是协议规定的训练序列&#x2F;导频，要么是雷达自己发射的已知脉冲。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>通信架构</tag>
+      
+      <tag>自适应滤波</tag>
+      
+      <tag>匹配滤波</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【知识补充】通信中的关键技术</title>
+    <link href="/2025/08/28/%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/"/>
+    <url>/2025/08/28/%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F%E6%A1%86%E6%9E%B6/</url>
+    
+    <content type="html"><![CDATA[<h1 id="通信系统关键步骤与常用技术总结表"><a href="#通信系统关键步骤与常用技术总结表" class="headerlink" title="通信系统关键步骤与常用技术总结表"></a>通信系统关键步骤与常用技术总结表</h1><table><thead><tr><th>阶段</th><th>主要任务</th><th>常见方法 &#x2F; 技术</th></tr></thead><tbody><tr><td><strong>发射端</strong></td><td></td><td></td></tr><tr><td>信源编码</td><td>压缩信息冗余，提高传输效率</td><td>熵编码（Huffman, Arithmetic）、视频&#x2F;语音压缩（JPEG, MP3, H.264 等）</td></tr><tr><td>信道编码</td><td>加入冗余，提升抗干扰能力</td><td>卷积码、Turbo码、LDPC、Polar 码</td></tr><tr><td>调制</td><td>比特→符号→波形，适应信道传输</td><td>PSK (BPSK, QPSK)，QAM，OFDM，扩频 (CDMA)</td></tr><tr><td>成形滤波</td><td>控制带宽，减少码间干扰</td><td>根升余弦 (RRC)、Nyquist 滤波器</td></tr><tr><td><strong>信道</strong></td><td>传播环境</td><td>加性高斯噪声 (AWGN)，多径衰落，频偏，多普勒，非线性失真</td></tr><tr><td><strong>接收端</strong></td><td></td><td></td></tr><tr><td>匹配滤波</td><td>在噪声中检测信号、最大化 SNR</td><td>匹配滤波器（已知波形的时间反转共轭）、相关检测</td></tr><tr><td>同步</td><td>确定符号时刻、校正频率和相位</td><td>时间同步：延迟相关、滑动相关<br>频率&#x2F;相位同步：PLL（锁相环）、导频同步</td></tr><tr><td>信道估计</td><td>估计多径信道特性</td><td>导频插值、最小二乘 (LS)、最小均方误差 (MMSE)</td></tr><tr><td>信道均衡</td><td>抵消ISI、多径畸变</td><td>ZF（零迫）、MMSE、DFE（判决反馈）、OFDM一拍均衡</td></tr><tr><td>解调检测</td><td>符号判决，输出比特或概率</td><td>硬判决、软判决（LLR）、最大似然检测</td></tr><tr><td>译码</td><td>利用纠错码恢复原始比特</td><td>Viterbi（卷积码）、Turbo 解码、LDPC、Polar 解码</td></tr><tr><td>信源解码</td><td>还原原始信息</td><td>图像&#x2F;音频&#x2F;视频解压缩，文本还原</td></tr></tbody></table>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>通信架构</tag>
+      
+      <tag>自适应滤波</tag>
+      
+      <tag>匹配滤波</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【知识补充】克拉美罗界相关推导和计算</title>
+    <link href="/2025/08/20/%E5%85%8B%E6%8B%89%E7%BE%8E%E7%BD%97/"/>
+    <url>/2025/08/20/%E5%85%8B%E6%8B%89%E7%BE%8E%E7%BD%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="FIM（Fisher-Information-Matrix，费舍尔信息矩阵）"><a href="#FIM（Fisher-Information-Matrix，费舍尔信息矩阵）" class="headerlink" title="FIM（Fisher Information Matrix，费舍尔信息矩阵）"></a>FIM（Fisher Information Matrix，费舍尔信息矩阵）</h1><p><strong>费舍尔信息矩阵（FIM）</strong> 用来度量 <strong>参数估计的精度</strong>。它描述了在给定观测数据的条件下，我们对模型参数（例如位置、速度、角度等）能了解多少信息；信息越多，理论上能把参数估得越精确。</p><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>对<strong>标量参数</strong> $(\theta)$：<br>$[<br>\mathrm{FIM}(\theta)<br>&#x3D; \mathcal I(\theta)<br>&#x3D; -,\mathbb{E}!\left[\frac{\partial^2}{\partial \theta^2},\ln L(\theta)\right],<br>]$<br>其中 $(L(\theta))$ 是 <strong>似然函数</strong>（也常写作 $(p(\text{data}\mid\theta))$）。</p><p>对<strong>向量参数</strong> $(\boldsymbol{\theta}\in\mathbb{R}^p)$：<br>$[<br>\mathbf I(\boldsymbol{\theta})<br>&#x3D; \mathbb{E}!\left[<br>\big(\nabla_{\boldsymbol{\theta}}\ln p(\mathbf x\mid \boldsymbol{\theta})\big)<br>\big(\nabla_{\boldsymbol{\theta}}\ln p(\mathbf x\mid \boldsymbol{\theta})\big)^{!\top}<br>\right]<br>&#x3D; -,\mathbb{E}!\left[\nabla_{\boldsymbol{\theta}}^{2}\ln p(\mathbf x\mid \boldsymbol{\theta})\right].<br>]$</p><h2 id="符号说明"><a href="#符号说明" class="headerlink" title="符号说明"></a>符号说明</h2><ul><li>$(L(\theta)) &#x2F; (p(\mathbf x\mid\theta))$：给定参数时，数据的（对数）似然。</li><li>$(\nabla)、(\nabla^2)$：梯度与海森矩阵（对参数的一阶、二阶导）。</li><li>$(\mathbb{E}[\cdot])$：对数据的期望（在真实参数下）。</li></ul><h2 id="物理意义"><a href="#物理意义" class="headerlink" title="物理意义"></a>物理意义</h2><ul><li><strong>对角线元素</strong>：某个参数自身的“信息量”（可估精度）。</li><li><strong>非对角元素</strong>：参数间的<strong>耦合&#x2F;相关</strong>信息。</li><li><strong>与 CRB 的关系</strong>：FIM 的逆给出 <strong>Cramér–Rao 下界（CRB）</strong>，即无偏估计量方差的理论下限：<ul><li>标量：$(\mathrm{Var}(\hat\theta)\ \ge\ 1&#x2F;\mathcal I(\theta))$  </li><li>向量：$(\mathrm{Cov}(\hat{\boldsymbol{\theta}})\ \succeq\ \mathbf I(\boldsymbol{\theta})^{-1})$</li></ul></li></ul><h2 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h2><ul><li>似然的对数曲线对参数越“陡”（二阶导绝对值越大），表示数据对该参数越敏感 ⇒ <strong>信息越多</strong> ⇒ <strong>可达到的方差下界越小</strong>（估计更准）。</li></ul><h2 id="小例子：定位-到达角估计"><a href="#小例子：定位-到达角估计" class="headerlink" title="小例子：定位&#x2F;到达角估计"></a>小例子：定位&#x2F;到达角估计</h2><ul><li>观测模型（简化）：$(\mathbf x &#x3D; \mathbf a(\theta),s + \mathbf w)$，其中 $(\mathbf a(\theta))$ 是阵列导向向量，$(\mathbf w\sim\mathcal{CN}(0,\sigma^2\mathbf I))$。</li><li>由该模型的似然 $(p(\mathbf x\mid \theta,s)) 可按上式求得 (\mathbf I(\theta, s))$，再用 <strong>Schur 补</strong>消去杂参 $(s)$，得到关于 $(\theta)$ 的等效信息量 $(\mathcal I_\theta)$。</li><li>最终 $(\mathrm{CRB}(\theta)&#x3D;\mathcal I_\theta^{-1})$ 给出 <strong>到达角</strong> 估计的理论精度下界；它随 <strong>阵元数、阵列孔径、快拍数、SNR</strong> 增大而降低（更精确）。</li></ul><h2 id="2-Jacobian-Matrix（雅可比矩阵）"><a href="#2-Jacobian-Matrix（雅可比矩阵）" class="headerlink" title="2. Jacobian Matrix（雅可比矩阵）"></a>2. Jacobian Matrix（雅可比矩阵）</h2><p><strong>雅可比矩阵</strong> 是由向量值函数对其输入变量的一阶偏导数组成的矩阵，刻画多变量函数在某点的局部线性变化率。</p><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>设向量值函数<br>$[<br>\mathbf{f}(\mathbf{x}) &#x3D; \begin{bmatrix} f_1(\mathbf{x}) \ f_2(\mathbf{x}) \ \vdots \ f_m(\mathbf{x}) \end{bmatrix},<br>\quad \mathbf{x} &#x3D; \begin{bmatrix} x_1 \ x_2 \ \vdots \ x_n \end{bmatrix},<br>]$<br>则雅可比矩阵 $( \mathbf{J}(\mathbf{x}) \in \mathbb{R}^{m \times n} )$ 为<br>$[<br>\mathbf{J}(\mathbf{x}) &#x3D;<br>\begin{bmatrix}<br>\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \<br>\frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_2}{\partial x_n} \<br>\vdots &amp; \vdots &amp; \ddots &amp; \vdots \<br>\frac{\partial f_m}{\partial x_1} &amp; \frac{\partial f_m}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n}<br>\end{bmatrix}.<br>]$</p><h3 id="物理意义-1"><a href="#物理意义-1" class="headerlink" title="物理意义"></a>物理意义</h3><ul><li>反映输出对各输入的小扰动的<strong>灵敏度</strong>与<strong>耦合关系</strong>。</li><li>常用于<strong>线性化</strong>非线性系统（在工作点附近用一阶近似）。</li><li>在优化中用于构造一阶&#x2F;二阶方法（如 Gauss–Newton、Levenberg–Marquardt）。</li></ul><h3 id="例子（定位直觉）"><a href="#例子（定位直觉）" class="headerlink" title="例子（定位直觉）"></a>例子（定位直觉）</h3><p>在目标定位中，传感器的每个测量值都是目标状态（位置、速度等）的函数。雅可比矩阵描述“目标状态微小变化会如何改变各个测量”，从而衡量系统对状态的敏感度。</p><hr><h2 id="3-FIM-与雅可比矩阵的关系"><a href="#3-FIM-与雅可比矩阵的关系" class="headerlink" title="3. FIM 与雅可比矩阵的关系"></a>3. FIM 与雅可比矩阵的关系</h2><ul><li><p>在很多模型（例如高斯噪声、同方差、独立测量）下，<strong>费舍尔信息矩阵（FIM）</strong> 可由雅可比矩阵给出：<br>$[<br>\mathbf{I} ;&#x3D;; \mathbf{J}(\mathbf{t}_u)^{!\top}, \mathbf{J}(\mathbf{t}_u)<br>]$</p><blockquote><p>更一般地，若观测协方差为 $(\boldsymbol{\Sigma})$，则 $(\mathbf{I}&#x3D;\mathbf{J}^{!\top}\boldsymbol{\Sigma}^{-1}\mathbf{J})$。</p></blockquote></li><li><p>这里 $(\mathbf{t}_u)$ 是待估参数向量，$(\mathbf{J}(\mathbf{t}_u))$ 为对该参数的雅可比矩阵。</p></li><li><p>通过 $(\mathbf{I})$ 的逆即可得到 <strong>Cramér–Rao 下界（CRB）</strong>，量化可达估计方差的下界。</p></li></ul><hr><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul><li><strong>雅可比矩阵</strong>：一阶偏导数组成，度量输入→输出的局部线性映射。</li><li><strong>FIM</strong>：度量“数据对参数的信息量”；常可由雅可比（及噪声协方差）构造。</li><li><strong>联系</strong>：有了 $(\mathbf{J})$ 就能构造 $(\mathbf{I})$，进一步得到 <strong>CRB</strong> 来评估参数估计的理论精度。<br><img src="/image-1.png" alt="alt text"><br>论文Cooperative Sensing in Cell-free Massive MIMO  ISAC Systems: Performance Optimization and  Signal Processing中的公式中</li><li>$(J(t_u^N)) 是 (\mathbf t)$ 空间的 FIM。  </li><li>$(P,J(t_u^N),P^{\mathsf T})$ 是关于 $(\mathbf p)$ 的 FIM。  </li><li>CRB：就是它的逆（在可逆、无偏条件下）。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>克拉美罗</tag>
+      
+      <tag>FIM</tag>
+      
+      <tag>费舍尔信息矩阵</tag>
+      
+      <tag>雅可比军阵</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【知识补充】似然函数定义、理解和最大似然函数</title>
+    <link href="/2025/08/20/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6&amp;%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/"/>
+    <url>/2025/08/20/%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6&amp;%E4%BC%BC%E7%84%B6%E5%87%BD%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="似然函数（Likelihood-Function）"><a href="#似然函数（Likelihood-Function）" class="headerlink" title="似然函数（Likelihood Function）"></a>似然函数（Likelihood Function）</h2><p>似然函数是统计学中一个重要的概念，用来描述在已知观测数据的条件下，模型参数的不同取值的可能性。简单来说，似然函数帮助我们衡量在给定数据的情况下，模型参数有多可能是某个特定值。</p><h3 id="1-似然函数的定义"><a href="#1-似然函数的定义" class="headerlink" title="1. 似然函数的定义"></a>1. <strong>似然函数的定义</strong></h3><p>给定一个 <strong>参数</strong> $( \theta )$ 和 <strong>观测数据</strong> $( x )$，似然函数 $( L(\theta | x) )$ 表示在给定数据 $( x )$ 的情况下，参数 $( \theta )$ 的取值有多可能：</p><p>$[<br>L(\theta | x) &#x3D; P(x | \theta)<br>]$</p><p>这里，<strong>$( P(x | \theta) )$</strong> 是 <strong>概率密度函数（pdf）</strong> 或 <strong>概率质量函数（pmf）</strong>，表示在给定参数 $( \theta )$ 的情况下，数据 $( x )$ 出现的概率。</p><h3 id="2-似然函数的用途"><a href="#2-似然函数的用途" class="headerlink" title="2. 似然函数的用途"></a>2. <strong>似然函数的用途</strong></h3><ul><li><strong>参数估计</strong>：似然函数最常用的应用是 <strong>最大似然估计（Maximum Likelihood Estimation, MLE）</strong>，即通过最大化似然函数来估计参数 $( \theta )$。具体步骤是：给定数据 $( x )$，找到使似然函数最大的参数值 $( \hat{\theta} )$。</li></ul><p>$[<br>\hat{\theta} &#x3D; \arg\max_{\theta} L(\theta | x)<br>]$</p><ul><li><strong>模型选择</strong>：通过比较不同模型的似然函数值，可以选择最适合数据的模型。</li></ul><h3 id="3-举个例子"><a href="#3-举个例子" class="headerlink" title="3. 举个例子"></a>3. <strong>举个例子</strong></h3><p>假设我们想用正态分布来建模某一数据集，正态分布的概率密度函数为：</p><p>$[<br>P(x | \mu, \sigma^2) &#x3D; \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)<br>]$</p><p>其中，$( \mu )$ 是均值，$( \sigma^2 )$ 是方差。如果我们有一组数据 $( { x_1, x_2, …, x_n } )$，则似然函数为所有数据点的联合概率：</p><p>$[<br>L(\mu, \sigma^2 | x_1, x_2, …, x_n) &#x3D; \prod_{i&#x3D;1}^{n} P(x_i | \mu, \sigma^2)<br>]$</p><p>通过最大化这个似然函数，我们可以估计出 <strong>$( \mu )$</strong> 和 <strong>$( \sigma^2 )$</strong> 的值。</p><h3 id="4-常见的似然函数"><a href="#4-常见的似然函数" class="headerlink" title="4. 常见的似然函数"></a>4. <strong>常见的似然函数</strong></h3><ul><li><strong>正态分布</strong>：正态分布的似然函数是所有观测值的概率密度的乘积，通常用于估计均值和方差。</li><li><strong>伯努利分布</strong>：用于描述二项分布的单次试验，似然函数表示的是观察到的“成功”的次数和总试验次数。</li></ul><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ul><li><strong>似然函数</strong> 是统计模型中用来衡量不同参数值如何解释给定数据的工具。</li><li>它的主要作用是估计模型参数，通过最大化似然函数来找到最有可能的参数。</li></ul><hr><h1 id="自己理解"><a href="#自己理解" class="headerlink" title="自己理解"></a>自己理解</h1><ul><li>系统有一个参数比如角度𝜃，通过观测得到了一组数据x1-x5；并且这组数据的概率密度函数为p（x1）-p（x5）</li><li>则这组随机观测的数据得到的似然函数为L（𝜃|x）&#x3D;p（x1）…p(x5);</li><li>为了求解观测后的系统𝜃，我们相信概率之神，相信我们抽到的就是最好的结果，则令L（𝜃|x）最大</li><li>即为最大似然函数</li><li>这点更好的理解在于概率论中 </li><li>这个视频可以帮助理解简单似然 <a href="https://www.bilibili.com/video/BV1Hb4y1m7rE/?spm_id_from=333.337.search-card.all.click&vd_source=af5ac54ccaa04593572dbf52fbcbf3b7">https://www.bilibili.com/video/BV1Hb4y1m7rE/?spm_id_from=333.337.search-card.all.click&amp;vd_source=af5ac54ccaa04593572dbf52fbcbf3b7</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>似然函数</tag>
+      
+      <tag>最大似然函数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【论文阅读】Cooperative Sensing in Cell-free Massive MIMO ISAC Systems Performance Optimization and Signal Processing</title>
+    <link href="/2025/08/19/%E8%AE%BA%E6%96%87/"/>
+    <url>/2025/08/19/%E8%AE%BA%E6%96%87/</url>
+    
+    <content type="html"><![CDATA[<h1 id="论文创新点：1-分布式AP资源点优化和分配2-符号级别融合基础和感知（感知信息融合）"><a href="#论文创新点：1-分布式AP资源点优化和分配2-符号级别融合基础和感知（感知信息融合）" class="headerlink" title="论文创新点：1.分布式AP资源点优化和分配2.符号级别融合基础和感知（感知信息融合）"></a>论文创新点：1.分布式AP资源点优化和分配2.符号级别融合基础和感知（感知信息融合）</h1><h1 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h1><h2 id="大体思路："><a href="#大体思路：" class="headerlink" title="大体思路："></a>大体思路：</h2><p>很多应用选哟通感一体感知 -》 ISAC重要 -》ISAC较传统有什么特点 -》目前ISAC的限制（单节点遮挡限制视野） -》 引出多节点-》多节点存在问题-》提出CFmMIMO的可解决方案<br>-》科普现有CFmMIMO的主要研究-》提出现有CFmMIMO的挑战</p><h2 id="相关文献："><a href="#相关文献：" class="headerlink" title="相关文献："></a>相关文献：</h2><h3 id="提出了在AP分配和优化方面大都采用克拉美罗界，并且对比现有的工作，阐述了自己工作增加了那些-扩充了那些-延续了那些"><a href="#提出了在AP分配和优化方面大都采用克拉美罗界，并且对比现有的工作，阐述了自己工作增加了那些-扩充了那些-延续了那些" class="headerlink" title="提出了在AP分配和优化方面大都采用克拉美罗界，并且对比现有的工作，阐述了自己工作增加了那些 扩充了那些 延续了那些"></a>提出了在AP分配和优化方面大都采用克拉美罗界，并且对比现有的工作，阐述了自己工作增加了那些 扩充了那些 延续了那些</h3><h3 id="融合感知方面，列举出了一些文献，提出了他们的不足，并且有延续性的说明了发展阶段。因此，本文…"><a href="#融合感知方面，列举出了一些文献，提出了他们的不足，并且有延续性的说明了发展阶段。因此，本文…" class="headerlink" title="融合感知方面，列举出了一些文献，提出了他们的不足，并且有延续性的说明了发展阶段。因此，本文…."></a>融合感知方面，列举出了一些文献，提出了他们的不足，并且有延续性的说明了发展阶段。因此，本文….</h3><h2 id="我方贡献："><a href="#我方贡献：" class="headerlink" title="我方贡献："></a>我方贡献：</h2><h3 id="两阶段方案：1先优化2在利用所提算法进行信号处理感知"><a href="#两阶段方案：1先优化2在利用所提算法进行信号处理感知" class="headerlink" title="两阶段方案：1先优化2在利用所提算法进行信号处理感知"></a>两阶段方案：1先优化2在利用所提算法进行信号处理感知</h3><h3 id="优化方案"><a href="#优化方案" class="headerlink" title="优化方案"></a>优化方案</h3><h3 id="所提算法"><a href="#所提算法" class="headerlink" title="所提算法"></a>所提算法</h3><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h1 id="第2章-系统模型"><a href="#第2章-系统模型" class="headerlink" title="第2章:系统模型"></a>第2章:系统模型</h1><p><img src="/image.png" alt="alt text"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>文献阅读</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>ISAC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
+    <link href="/2025/08/18/%E5%87%B8%E4%BC%98%E5%8C%96/"/>
+    <url>/2025/08/18/%E5%87%B8%E4%BC%98%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>尝试</title>
     <link href="/2025/08/15/%E5%B0%9D%E8%AF%95/"/>
     <url>/2025/08/15/%E5%B0%9D%E8%AF%95/</url>
