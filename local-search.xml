@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>【知识补充】LFM信号和CPM信号</title>
+    <link href="/2025/09/02/LFM+CPM/"/>
+    <url>/2025/09/02/LFM+CPM/</url>
+    
+    <content type="html"><![CDATA[<h1 id="LFM-信号介绍"><a href="#LFM-信号介绍" class="headerlink" title="LFM 信号介绍"></a>LFM 信号介绍</h1><p>LFM 信号就是 <strong>线性调频信号</strong>（Linear Frequency Modulated signal），也叫 <strong>Chirp 信号</strong>。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。  </p><hr><h2 id="1-基本表达式"><a href="#1-基本表达式" class="headerlink" title="1. 基本表达式"></a>1. 基本表达式</h2><p>一个标准的 LFM 信号可以写成：</p><p>$s(t) &#x3D; A \cos \Big( 2\pi \big( f_c t + \tfrac{1}{2} \mu t^2 \big) + \varphi_0 \Big), \quad 0 \leq t \leq T$</p><p>其中：</p><ul><li>$A$：信号幅度  </li><li>$f_c$：载频（中心频率）  </li><li>$\mu &#x3D; \frac{B}{T}$：调频斜率，表示频率随时间变化的快慢  </li><li>$B$：带宽（频率变化总量）  </li><li>$T$：脉冲宽度（持续时间）  </li><li>$\varphi_0$：初始相位</li></ul><hr><h2 id="2-瞬时频率的解释"><a href="#2-瞬时频率的解释" class="headerlink" title="2. 瞬时频率的解释"></a>2. 瞬时频率的解释</h2><p>信号相位为：</p><p>$\phi(t) &#x3D; 2\pi \big( f_c t + \tfrac{1}{2}\mu t^2 \big) + \varphi_0$</p><p>瞬时频率是相位对时间的导数：</p><p>$f(t) &#x3D; \frac{1}{2\pi} \frac{d\phi(t)}{dt} &#x3D; f_c + \mu t$</p><p>可以看出频率随时间呈线性增加（上扫频）或减小（下扫频）。</p><hr><h2 id="3-物理意义"><a href="#3-物理意义" class="headerlink" title="3. 物理意义"></a>3. 物理意义</h2><ul><li><strong>时间–频率特性</strong>：从 $f_c - \tfrac{B}{2}$ 到 $f_c + \tfrac{B}{2}$ 线性变化。  </li><li><strong>优点</strong>：带宽大 → 距离分辨率高；能量集中在一个长脉冲内 → 提高信噪比。  </li><li><strong>典型应用</strong>：雷达脉冲压缩、合成孔径雷达成像（SAR）、超声探测、通信扩频。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>连续相位调制</tag>
+      
+      <tag>CPM</tag>
+      
+      <tag>LFM</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【知识补充】CPM波形理解+相位概念延伸</title>
+    <link href="/2025/09/02/CPM/"/>
+    <url>/2025/09/02/CPM/</url>
+    
+    <content type="html"><![CDATA[<h1 id="CPM（连续相位调制）技术"><a href="#CPM（连续相位调制）技术" class="headerlink" title="CPM（连续相位调制）技术"></a>CPM（连续相位调制）技术</h1><h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1. 基本概念"></a>1. 基本概念</h2><ul><li><strong>CPM（Continuous Phase Modulation）</strong> 是一种调制技术，其核心特征是 <strong>相位连续性</strong>。  </li><li>在传统的调制方式中（如MSK、FSK），符号之间的相位可能出现突变；而在CPM中，通过引入相位脉冲函数，使得调制信号的相位在符号间平滑过渡，避免了不连续点。</li></ul><p>数学表达式通常为：<br>$ s(t) &#x3D; \sqrt{\frac{2E_s}{T}} \cos \Bigg( 2\pi f_c t + 2\pi h \sum_{k} a_k q(t-kT) \Bigg) $</p><p>其中：  </p><ul><li>$E_s$：符号能量  </li><li>$T$：符号周期  </li><li>$f_c$：载波频率  </li><li>$h$：调制指数  </li><li>$a_k$：符号序列（取值如 $\pm 1$）  </li><li>$q(t)$：相位脉冲函数</li></ul><hr><h2 id="2-关键要素"><a href="#2-关键要素" class="headerlink" title="2. 关键要素"></a>2. 关键要素</h2><ul><li><p><strong>调制指数 $h$</strong>  </p><ul><li>决定相位增量的大小。  </li><li>若无相位脉冲函数，$h$ 就直接规定每个符号对应的固定相位变化。  </li><li>当引入脉冲函数时，符号影响被平滑展开，避免突变。</li></ul></li><li><p><strong>相位脉冲函数 $q(t)$</strong>  </p><ul><li>控制符号对相位的“累积作用”随时间平滑展开。  </li><li>常见类型：矩形、升余弦、Gaussian等。  </li><li>作用：保证相位连续，减小频谱旁瓣。</li></ul></li></ul><hr><h2 id="3-CPM信号特性"><a href="#3-CPM信号特性" class="headerlink" title="3. CPM信号特性"></a>3. CPM信号特性</h2><ul><li><strong>相位连续性</strong>：不会出现跳变，相比非连续调制更适合实际信道传输。  </li><li><strong>频谱效率高</strong>：带宽利用率更好，适合受限频带通信。  </li><li><strong>恒包络特性</strong>：避免了幅度变化，特别适用于非线性功放（如卫星通信）。  </li><li><strong>实现方式</strong>：包括 <strong>MSK</strong>（最小频移键控，CPM的一种特例），以及 GMSK、Tamed-FM 等多种形式。</li></ul><hr><h2 id="4-典型应用"><a href="#4-典型应用" class="headerlink" title="4. 典型应用"></a>4. 典型应用</h2><ul><li><strong>移动通信</strong>（如GSM使用的GMSK）  </li><li><strong>卫星通信</strong>（恒包络特性避免功率放大器非线性失真）  </li><li><strong>军事通信</strong>（抗干扰能力强）</li></ul><h1 id="CPM-中调制指数与相位脉冲函数的作用"><a href="#CPM-中调制指数与相位脉冲函数的作用" class="headerlink" title="CPM 中调制指数与相位脉冲函数的作用"></a>CPM 中调制指数与相位脉冲函数的作用</h1><h2 id="1-调制指数-h"><a href="#1-调制指数-h" class="headerlink" title="1. 调制指数 $h$"></a>1. 调制指数 $h$</h2><ul><li>调制指数 $h$ 决定了 <strong>每个符号对相位变化的幅度</strong>。  </li><li>在没有相位脉冲函数 $q(t)$ 时，符号 $a_k$ 会直接引起固定的相位跳变：<br>$ \Delta \phi &#x3D; 2 \pi h a_k $  </li><li>$h$ 的大小影响频谱特性：  <ul><li>当 $h$ 较小，信号的相位变化较平缓，带宽相对更窄；  </li><li>当 $h$ 较大，信号的相位变化更剧烈，频谱展宽。</li></ul></li></ul><hr><h2 id="2-相位脉冲函数-q-t"><a href="#2-相位脉冲函数-q-t" class="headerlink" title="2. 相位脉冲函数 $q(t)$"></a>2. 相位脉冲函数 $q(t)$</h2><ul><li>相位脉冲函数 $q(t)$ 用来控制 <strong>相位累积的展开方式</strong>。  </li><li>若 $q(t)$ 为阶跃函数，则相位在符号间会突变，不连续。  </li><li>若 $q(t)$ 为平滑函数（如升余弦、Gaussian），则相位过渡平滑，保证 <strong>连续相位</strong> 特性。</li></ul><p>数学表达式：<br>$ \phi(t) &#x3D; 2\pi h \sum_{k} a_k q(t-kT) $</p><p>其中：  </p><ul><li>$a_k$ 为第 $k$ 个符号，  </li><li>$T$ 为符号周期，  </li><li>$q(t)$ 控制每个符号的相位贡献在时间上的扩展。</li></ul><hr><h2 id="3-协同作用"><a href="#3-协同作用" class="headerlink" title="3. 协同作用"></a>3. 协同作用</h2><ul><li><strong>$h$ 决定了相位变化的大小</strong>（幅度）。  </li><li><strong>$q(t)$ 决定了相位变化的平滑程度</strong>（形状）。</li></ul><p>因此：  </p><ul><li>如果没有 $q(t)$，则 $h$ 仅仅规定每个符号的相位跳变，波形会不连续；  </li><li>引入 $q(t)$ 后，相位在 $h$ 的基础上平滑展开，从而得到带宽受控、相位连续的 CPM 信号。</li></ul><h1 id="自己理解"><a href="#自己理解" class="headerlink" title="自己理解"></a>自己理解</h1><ul><li>调制函数h决定了相位旋转多大，比如就是步子大小</li><li>相位脉冲函数决定相位旋转怎么走，比如走路姿势，急转弯还是平滑拐弯</li><li>如果没有相位脉冲函数，相位就会发生跳变</li><li>相位具体是什么，他是cos（xt+y）中的y吗</li><li>答：不是，那个只是初相位；相位是一个函数，表示信号在2Π弧度中的变化</li></ul><h2 id="相位的导数是频率——一句话理解"><a href="#相位的导数是频率——一句话理解" class="headerlink" title="相位的导数是频率——一句话理解"></a>相位的导数是频率——一句话理解</h2><blockquote><p><strong>把相位看成时钟指针转过的“角度”，它的转速（角度变化率）就是频率。</strong></p></blockquote><hr><h3 id="1-回到最简单的正弦波"><a href="#1-回到最简单的正弦波" class="headerlink" title="1. 回到最简单的正弦波"></a>1. 回到最简单的正弦波</h3><p>[<br>x(t)&#x3D;\sin!\bigl(\theta(t)\bigr)<br>]</p><ul><li>(\theta(t))：相位（单位：弧度 rad）  </li><li>假设相位随时间线性增长：<br>[<br>\theta(t)&#x3D;2\pi f_0 t + \phi<br>]</li></ul><hr><h3 id="2-求导看“转速”"><a href="#2-求导看“转速”" class="headerlink" title="2. 求导看“转速”"></a>2. 求导看“转速”</h3><p>对相位求导：</p><p>[<br>\frac{d\theta(t)}{dt}&#x3D;2\pi f_0<br>]</p><ul><li>左边：相位变化率（单位：rad&#x2F;s）  </li><li>右边：(2\pi f_0) 正是角频率 (\omega) 的定义</li></ul><p>再除以 (2\pi) 得到普通频率：</p><p>[<br>\frac{1}{2\pi}\frac{d\theta(t)}{dt}&#x3D;f_0\quad(\text{Hz})<br>]</p><hr><h3 id="3-生活化比喻"><a href="#3-生活化比喻" class="headerlink" title="3. 生活化比喻"></a>3. 生活化比喻</h3><table><thead><tr><th>类比对象</th><th>对应概念</th></tr></thead><tbody><tr><td>时钟秒针</td><td>相位 (\theta(t))</td></tr><tr><td>秒针转速</td><td>(\displaystyle\frac{d\theta}{dt})</td></tr><tr><td>每秒转多少圈</td><td>频率 (f)</td></tr></tbody></table><ul><li>秒针 1 分钟转一圈 ⇒ 频率 (1&#x2F;60\ \text{Hz})  </li><li>把“角度”换成“弧度”，公式一模一样。</li></ul><hr><h3 id="4-相位不是线性增长时"><a href="#4-相位不是线性增长时" class="headerlink" title="4. 相位不是线性增长时"></a>4. 相位不是线性增长时</h3><p>例如：</p><p>[<br>\theta(t)&#x3D;2\pi\left(5t+0.5t^2\right)<br>]</p><p>瞬时频率为：</p><p>[<br>f_{\text{inst}}(t)&#x3D;\frac{1}{2\pi}\frac{d\theta}{dt}&#x3D;5+t\quad(\text{Hz})<br>]</p><p>此时频率随时间变化，这就是“调频（FM）”的数学本质。</p><hr><h3 id="5-小结一句话"><a href="#5-小结一句话" class="headerlink" title="5. 小结一句话"></a>5. 小结一句话</h3><blockquote><p><strong>相位对时间的变化率（导数）再除以 (2\pi)，就是信号在当前时刻的瞬时频率。</strong></p><h1 id="自己理解-1"><a href="#自己理解-1" class="headerlink" title="自己理解"></a>自己理解</h1></blockquote><ul><li>上面很好地表示了相位、相函数是什么概念，相位是括号里面所有的内容；</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>连续相位调制</tag>
+      
+      <tag>相位</tag>
+      
+      <tag>CPM</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【知识补充】什么是信道均衡</title>
     <link href="/2025/08/28/%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1/"/>
     <url>/2025/08/28/%E4%BF%A1%E9%81%93%E5%9D%87%E8%A1%A1/</url>
