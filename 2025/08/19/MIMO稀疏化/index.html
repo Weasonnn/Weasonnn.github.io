@@ -19,24 +19,22 @@
   <meta name="author" content="Yichen Wu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="LFM 信号介绍LFM 信号就是 线性调频信号（Linear Frequency Modulated signal），也叫 Chirp 信号。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。    1. 基本表达式一个标准的 LFM 信号可以写成： $s(t) &#x3D; A \cos \Big( 2\pi \big( f_c">
+    <meta name="description" content="对这篇文章的看法：摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；不同的部分：他是MIMO阵列 可能不是差分阵列，这点可以看看石师兄的；存疑点：1.模块化阵列2.一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。大体框架这里更感觉是对相关指标的介绍MIMO稀疏化通信方向├── 空间分辨率│   ├── 信号分离能力：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【知识补充】LFM信号和CPM信号">
-<meta property="og:url" content="http://example.com/2025/09/02/LFM+CPM/index.html">
+<meta property="og:title" content="【论文阅读】6G 通感一体化:从传统 MIMO 到稀疏 MIMO">
+<meta property="og:url" content="http://example.com/2025/08/19/MIMO%E7%A8%80%E7%96%8F%E5%8C%96/index.html">
 <meta property="og:site_name" content="Weason&#39;s home">
-<meta property="og:description" content="LFM 信号介绍LFM 信号就是 线性调频信号（Linear Frequency Modulated signal），也叫 Chirp 信号。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。    1. 基本表达式一个标准的 LFM 信号可以写成： $s(t) &#x3D; A \cos \Big( 2\pi \big( f_c">
+<meta property="og:description" content="对这篇文章的看法：摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；不同的部分：他是MIMO阵列 可能不是差分阵列，这点可以看看石师兄的；存疑点：1.模块化阵列2.一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。大体框架这里更感觉是对相关指标的介绍MIMO稀疏化通信方向├── 空间分辨率│   ├── 信号分离能力：">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-09-02T15:06:37.000Z">
-<meta property="article:modified_time" content="2025-09-02T09:06:25.472Z">
+<meta property="article:published_time" content="2025-08-18T16:06:37.000Z">
+<meta property="article:modified_time" content="2025-09-22T07:13:32.268Z">
 <meta property="article:author" content="Yichen Wu">
-<meta property="article:tag" content="连续相位调制">
-<meta property="article:tag" content="CPM">
-<meta property="article:tag" content="LFM">
+<meta property="article:tag" content="MIMO稀疏化">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>【知识补充】LFM信号和CPM信号 - Weason&#39;s home</title>
+  <title>【论文阅读】6G 通感一体化:从传统 MIMO 到稀疏 MIMO - Weason&#39;s home</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="【知识补充】LFM信号和CPM信号"></span>
+            <span id="subtitle" data-typed-text="【论文阅读】6G 通感一体化:从传统 MIMO 到稀疏 MIMO"></span>
           
         </div>
 
@@ -213,8 +211,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-09-02 15:06" pubdate>
-          2025年9月2日 下午
+        <time datetime="2025-08-18 16:06" pubdate>
+          2025年8月18日 下午
         </time>
       </span>
     
@@ -225,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          327 字
+          479 字
         
       </span>
     
@@ -236,7 +234,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -273,36 +271,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【知识补充】LFM信号和CPM信号</h1>
+            <h1 id="seo-header">【论文阅读】6G 通感一体化:从传统 MIMO 到稀疏 MIMO</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="LFM-信号介绍"><a href="#LFM-信号介绍" class="headerlink" title="LFM 信号介绍"></a>LFM 信号介绍</h1><p>LFM 信号就是 <strong>线性调频信号</strong>（Linear Frequency Modulated signal），也叫 <strong>Chirp 信号</strong>。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。  </p>
-<hr>
-<h2 id="1-基本表达式"><a href="#1-基本表达式" class="headerlink" title="1. 基本表达式"></a>1. 基本表达式</h2><p>一个标准的 LFM 信号可以写成：</p>
-<p>$s(t) &#x3D; A \cos \Big( 2\pi \big( f_c t + \tfrac{1}{2} \mu t^2 \big) + \varphi_0 \Big), \quad 0 \leq t \leq T$</p>
-<p>其中：</p>
-<ul>
-<li>$A$：信号幅度  </li>
-<li>$f_c$：载频（中心频率）  </li>
-<li>$\mu &#x3D; \frac{B}{T}$：调频斜率，表示频率随时间变化的快慢  </li>
-<li>$B$：带宽（频率变化总量）  </li>
-<li>$T$：脉冲宽度（持续时间）  </li>
-<li>$\varphi_0$：初始相位</li>
-</ul>
-<hr>
-<h2 id="2-瞬时频率的解释"><a href="#2-瞬时频率的解释" class="headerlink" title="2. 瞬时频率的解释"></a>2. 瞬时频率的解释</h2><p>信号相位为：</p>
-<p>$\phi(t) &#x3D; 2\pi \big( f_c t + \tfrac{1}{2}\mu t^2 \big) + \varphi_0$</p>
-<p>瞬时频率是相位对时间的导数：</p>
-<p>$f(t) &#x3D; \frac{1}{2\pi} \frac{d\phi(t)}{dt} &#x3D; f_c + \mu t$</p>
-<p>可以看出频率随时间呈线性增加（上扫频）或减小（下扫频）。</p>
-<hr>
-<h2 id="3-物理意义"><a href="#3-物理意义" class="headerlink" title="3. 物理意义"></a>3. 物理意义</h2><ul>
-<li><strong>时间–频率特性</strong>：从 $f_c - \tfrac{B}{2}$ 到 $f_c + \tfrac{B}{2}$ 线性变化。  </li>
-<li><strong>优点</strong>：带宽大 → 距离分辨率高；能量集中在一个长脉冲内 → 提高信噪比。  </li>
-<li><strong>典型应用</strong>：雷达脉冲压缩、合成孔径雷达成像（SAR）、超声探测、通信扩频。</li>
-</ul>
+                <h1 id="对这篇文章的看法："><a href="#对这篇文章的看法：" class="headerlink" title="对这篇文章的看法："></a>对这篇文章的看法：</h1><h2 id="摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；"><a href="#摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；" class="headerlink" title="摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；"></a>摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；</h2><h2 id="不同的部分：他是MIMO阵列-可能不是差分阵列，这点可以看看石师兄的；"><a href="#不同的部分：他是MIMO阵列-可能不是差分阵列，这点可以看看石师兄的；" class="headerlink" title="不同的部分：他是MIMO阵列 可能不是差分阵列，这点可以看看石师兄的；"></a>不同的部分：他是MIMO阵列 可能不是差分阵列，这点可以看看石师兄的；</h2><h1 id="存疑点："><a href="#存疑点：" class="headerlink" title="存疑点："></a>存疑点：</h1><h2 id="1-模块化阵列"><a href="#1-模块化阵列" class="headerlink" title="1.模块化阵列"></a>1.模块化阵列</h2><h2 id="2-一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。"><a href="#2-一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。" class="headerlink" title="2.一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。"></a>2.一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。</h2><h1 id="大体框架"><a href="#大体框架" class="headerlink" title="大体框架"></a>大体框架</h1><h2 id="这里更感觉是对相关指标的介绍"><a href="#这里更感觉是对相关指标的介绍" class="headerlink" title="这里更感觉是对相关指标的介绍"></a>这里更感觉是对相关指标的介绍</h2><p>MIMO稀疏化通信方向<br>├── 空间分辨率<br>│   ├── 信号分离能力：在多用户场景下，用户间的角度可能很接近，如果分辨率不足，就会造成干扰，导致性能下降。<br>│   ├── 空分复用（Spatial Multiplexing）：空间分辨率高，可以在相同的频率和时间资源上服务更多用户，提高频谱效率。<br>│   ├── 波束赋形（Beamforming）精度：高空间分辨率能形成更窄、更准的波束，从而提升链路质量，降低能量泄露和干扰。<br>│   └── 信道建模和估计：在稀疏 MIMO 中，信道常常只有有限个稀疏角度路径，高分辨率可以更准确地捕捉这些稀疏特征。<br>├── 通信速率<br>│   ├── 比较了基站侧稀疏度和用户稀疏度两个维度变量的变化程度<br>├── 空间复用增益<br>│   ├── 提出了一个“自由度”的概念，不同于阵列设计中的自由度；<br>│   ├── EDOF，好像指与MIMO信道相关概念有关？<br>├── 信道容量<br>└── 存在问题<br>MIMO稀疏化感知方向<br>├── 空间分辨率<br>│   ├──<br>├── 感知自由度<br>│   ├── 这个和我理解的一样<br>│   ├── 提出了一个“自由度”的概念，不同于阵列设计中的自由度；<br>├── 其他部分介绍的不好；<br>└── 总体说的很粗略，少有ISAC+稀疏阵列的概念；</p>
 
                 
               </div>
@@ -321,7 +295,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" class="category-chain-item">知识补充</a>
+  <a href="/categories/%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/" class="category-chain-item">文献阅读</a>
   
   
 
@@ -336,11 +310,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BF%9E%E7%BB%AD%E7%9B%B8%E4%BD%8D%E8%B0%83%E5%88%B6/" class="print-no-link">#连续相位调制</a>
-      
-        <a href="/tags/CPM/" class="print-no-link">#CPM</a>
-      
-        <a href="/tags/LFM/" class="print-no-link">#LFM</a>
+        <a href="/tags/MIMO%E7%A8%80%E7%96%8F%E5%8C%96/" class="print-no-link">#MIMO稀疏化</a>
       
     </div>
   
@@ -352,8 +322,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【知识补充】LFM信号和CPM信号</div>
-      <div>http://example.com/2025/09/02/LFM+CPM/</div>
+      <div>【论文阅读】6G 通感一体化:从传统 MIMO 到稀疏 MIMO</div>
+      <div>http://example.com/2025/08/19/MIMO稀疏化/</div>
     </div>
     <div class="license-meta">
       
@@ -365,7 +335,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年9月2日</div>
+          <div>2025年8月18日</div>
         </div>
       
       
@@ -397,9 +367,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/" title="【知识补充】MIMO体系与参数">
+                      <a href="/2025/08/19/%E8%AE%BA%E6%96%87/" title="【论文阅读】Cooperative Sensing in Cell-free Massive MIMO ISAC Systems Performance Optimization and Signal Processing">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【知识补充】MIMO体系与参数</span>
+                        <span class="hidden-mobile">【论文阅读】Cooperative Sensing in Cell-free Massive MIMO ISAC Systems Performance Optimization and Signal Processing</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -407,8 +377,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/09/02/CPM/" title="【知识补充】CPM波形理解+相位概念延伸">
-                        <span class="hidden-mobile">【知识补充】CPM波形理解+相位概念延伸</span>
+                      <a href="/2025/08/18/%E5%87%B8%E4%BC%98%E5%8C%96/" title="">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

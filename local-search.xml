@@ -4,6 +4,77 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2026/04/01/DOA%E6%B3%A2%E6%9D%9F%E6%8C%87%E5%90%91%E4%B8%8E%E5%BF%AB%E6%8B%8D%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%B7%AE%E5%BC%82/"/>
+    <url>/2026/04/01/DOA%E6%B3%A2%E6%9D%9F%E6%8C%87%E5%90%91%E4%B8%8E%E5%BF%AB%E6%8B%8D%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%B7%AE%E5%BC%82/</url>
+    
+    <content type="html"><![CDATA[<h1 id="DOA研究中波束指向与自由度评价差异及目标识别方法对比"><a href="#DOA研究中波束指向与自由度评价差异及目标识别方法对比" class="headerlink" title="DOA研究中波束指向与自由度评价差异及目标识别方法对比"></a>DOA研究中波束指向与自由度评价差异及目标识别方法对比</h1><p>这是一个非常深刻的问题，触及了**经典波束成形（Beamforming）与现代空间谱估计（High-resolution Spectral Estimation）**在底层逻辑上的根本区别。</p><p>简单来说：波束指向（Beamsteering）是“搜寻”，而快拍统计（Subspace Methods）是“计算”。</p><p>以下是两者在评价指标和识别逻辑上的核心差异分析：</p><h2 id="1-为什么不用“波束指向”评价-DOA-性能？"><a href="#1-为什么不用“波束指向”评价-DOA-性能？" class="headerlink" title="1. 为什么不用“波束指向”评价 DOA 性能？"></a>1. 为什么不用“波束指向”评价 DOA 性能？</h2><p>在传统的雷达或通信中，波束指向确实很重要，但在 DOA（方向估计） 研究领域，它有几个致命的局限性：</p><ul><li><p><strong>受限于“瑞利判据”（Rayleigh Criterion）</strong>： 波束的宽度由阵列的物理孔径决定（约为 λ&#x2F;L）。如果你靠转动波束来找目标，两个目标距离只要小于波束宽度，波束扫描图上就只有一个峰，你无法分辨出是两个目标。</p></li><li><p><strong>扫描时延</strong>： 波束指向通常需要逐点扫描（Grid Search），对于高动态目标（如无人机蜂群），扫描一圈可能目标已经位移了。</p></li><li><p><strong>评价维度单一</strong>： “波束指向”主要评价的是增益（Gain）和方向性。而在 DOA 中，我们更关心分辨率（Resolution）和估计精度（CRB）。</p></li></ul><h2 id="2-为什么“自由度（DoF）”是核心指标？"><a href="#2-为什么“自由度（DoF）”是核心指标？" class="headerlink" title="2. 为什么“自由度（DoF）”是核心指标？"></a>2. 为什么“自由度（DoF）”是核心指标？</h2><p>在 MUSIC 和 ESPRIT 算法中，自由度决定了你**“上限能看清多少个目标”**。</p><ul><li><p><strong>物理意义</strong>： 协方差矩阵 R&#x3D;E[xxᴴ] 的秩代表了空间信号的独立维度。</p></li><li><p><strong>稀疏阵列的优势</strong>： 在你的研究中，使用稀疏阵列（如 Nested Array）可以通过**差分共阵（Difference Co-array）**将 N 个物理阵元虚拟出 O(N²) 个自由度。</p></li></ul><p>如果你用波束指向评价： 稀疏阵列会有严重的栅瓣（Grating Lobes），图样惨不忍睹，看起来是“坏天线”。</p><p>如果你用自由度评价： 稀疏阵列能提供极大的虚拟孔径，在算法处理后，其分辨率远超同等元数的均匀阵列。</p><h2 id="3-“快拍积累”-vs-“波束扫描”：底层的差别"><a href="#3-“快拍积累”-vs-“波束扫描”：底层的差别" class="headerlink" title="3. “快拍积累” vs “波束扫描”：底层的差别"></a>3. “快拍积累” vs “波束扫描”：底层的差别</h2><p>这两者的差别可以类比为**“手持手电筒在黑夜里找人”与“用长时间曝光的专业相机拍照并后期处理”**。</p><h3 id="A-积累快拍协方差矩阵（空间谱估计）"><a href="#A-积累快拍协方差矩阵（空间谱估计）" class="headerlink" title="A. 积累快拍协方差矩阵（空间谱估计）"></a>A. 积累快拍协方差矩阵（空间谱估计）</h3><p>逻辑： 算法不关心波束往哪指，它关心的是信号场在空间上的相关性。</p><p>MUSIC&#x2F;ESPRIT 的本质： 它们利用特征值分解将空间分解为信号子空间和噪声子空间。目标位置是算出来的“奇异点”，而不是能量最高的“汇聚点”。</p><p>优点： 具有超分辨率（Super-resolution）。即便两个无人机靠得非常近（在同一个波束内），只要快拍数足够，协方差矩阵就能分辨出两个不同的特征矢量。</p><h3 id="B-波束指向（常规处理）"><a href="#B-波束指向（常规处理）" class="headerlink" title="B. 波束指向（常规处理）"></a>B. 波束指向（常规处理）</h3><p>逻辑： 类似于加权求和 wᴴx。只有当信号方向与 w 对齐时，输出功率最大。</p><p>优点： 信噪比（SNR）增益最高。因为波束成形把能量物理性地汇聚到了一个点。</p><h2 id="4-两者在“通感一体化”中的角色分配"><a href="#4-两者在“通感一体化”中的角色分配" class="headerlink" title="4. 两者在“通感一体化”中的角色分配"></a>4. 两者在“通感一体化”中的角色分配</h2><p>在你构思的“智慧天线”框架下，这两者不应该是对立的，而是分工明确的：</p><ul><li><p><strong>感知阶段（用算法）</strong>： 利用快拍积累 + MUSIC&#x2F;ESPRIT。<br>目的： 获得极高的 DOA 精度。<br>指标： 关注自由度、分辨率、估计均方误差 (RMSE)。<br>应用： 识别无人机蜂群里到底有几架飞机，分别在哪。</p></li><li><p><strong>通信&#x2F;屏蔽阶段（用波束）</strong>： 利用得到的 DOA 信息，通过移相器形成指向性波束。<br>目的： 能量对准。<br>指标： 关注增益、主瓣宽度、零陷深度。<br>应用： 给友军无人机发送指令（高增益），同时对非合作目标方向形成零陷（屏蔽干扰）。</p></li></ul><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>你感觉“没人用波束指向评价”，是因为你在研究 “感知的精度（Estimation）”；而工程上关注波束指向，是因为他们在研究 “能量的传输（Transmission）”。</p><p>对于你的论文：</p><p>你应该坚持用**自由度（DoF）和克拉美罗界（CRB）<strong>来评价你的二维稀疏阵列布局，因为这体现了你阵列设计的“感知潜力”。然后，你可以补充一个</strong>波束方向图（Beam Pattern）**的分析，展示在选定该模式后，系统如何利用这些天线进行高效通信。这种“双指标”评价体系正是 ISAC 研究最标准、也最高级的做法。</p><blockquote><p>（注：文档部分内容可能由 AI 生成）</p></blockquote>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【课题方向】移动阵列信号模型</title>
+    <link href="/2025/09/23/%E7%A7%BB%E5%8A%A8%E9%98%B5%E5%88%97%E7%90%86%E8%AE%BA%E6%A8%A1%E5%9E%8B/"/>
+    <url>/2025/09/23/%E7%A7%BB%E5%8A%A8%E9%98%B5%E5%88%97%E7%90%86%E8%AE%BA%E6%A8%A1%E5%9E%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="移动阵列接收信号建模推导"><a href="#移动阵列接收信号建模推导" class="headerlink" title="移动阵列接收信号建模推导"></a>移动阵列接收信号建模推导</h1><h2 id="1-阵列与信号模型"><a href="#1-阵列与信号模型" class="headerlink" title="1. 阵列与信号模型"></a>1. 阵列与信号模型</h2><ul><li>阵列：一维均匀线阵 (ULA)，阵元位置<br>[<br>x_m &#x3D; m d,\quad m&#x3D;0,\dots,L-1<br>]</li><li>运动：阵列整体以速度 (v) 沿阵列轴向匀速移动。</li><li>第 (k) 个远场信号源：方向角 (\theta_k)，信号 (s_k(t))。</li><li>波长：(\lambda)，波数 (k_0&#x3D;2\pi&#x2F;\lambda)。</li></ul><hr><h2 id="2-静止阵列的导向矢量"><a href="#2-静止阵列的导向矢量" class="headerlink" title="2. 静止阵列的导向矢量"></a>2. 静止阵列的导向矢量</h2><p>[<br>a(\theta_k)&#x3D;<br>\begin{bmatrix}<br>e^{-j k_0 x_0\sin\theta_k},~<br>e^{-j k_0 x_1\sin\theta_k},~<br>\dots,~<br>e^{-j k_0 x_{L-1}\sin\theta_k}<br>\end{bmatrix}^{T}.<br>]</p><p>阵列流形矩阵：<br>[<br>\mathbf A&#x3D;[,a(\theta_1),\dots,a(\theta_K),].<br>]</p><hr><h2 id="3-运动带来的公共相位"><a href="#3-运动带来的公共相位" class="headerlink" title="3. 运动带来的公共相位"></a>3. 运动带来的公共相位</h2><p>阵列整体位移：<br>[<br>\Delta x(t)&#x3D;v t,<br>]<br>相位增量：<br>[<br>\phi_k(t)&#x3D;k_0 v t \sin\theta_k &#x3D; \frac{2\pi}{\lambda} v t \sin\theta_k.<br>]</p><p>公共相位因子：<br>[<br>b_k(t)&#x3D;\exp!\left(-j \frac{2\pi}{\lambda} v t \sin\theta_k\right).<br>]</p><hr><h2 id="4-单个快拍的信号模型"><a href="#4-单个快拍的信号模型" class="headerlink" title="4. 单个快拍的信号模型"></a>4. 单个快拍的信号模型</h2><p>把公共相位并入信号：<br>[<br>\tilde s_k(t)&#x3D;b_k(t),s_k(t), \quad<br>\tilde{\mathbf s}(t)&#x3D;[\tilde s_1(t),\dots,\tilde s_K(t)]^T.<br>]</p><p>接收信号：<br>[<br>\boxed{;\mathbf x(t)&#x3D;\mathbf A,\tilde{\mathbf s}(t)+\mathbf h(t);}<br>]</p><hr><h2 id="5-两个快拍的模型"><a href="#5-两个快拍的模型" class="headerlink" title="5. 两个快拍的模型"></a>5. 两个快拍的模型</h2><p>在 (t+\Delta t) 时刻：<br>[<br>b_k(t+\Delta t)&#x3D;b_k(t),b_k(\Delta t),<br>]<br>其中<br>[<br>b_k(\Delta t)&#x3D;\exp!\left(-j \frac{2\pi}{\lambda} v \Delta t \sin\theta_k\right).<br>]</p><p>因此：<br>[<br>\mathbf x(t+\Delta t)&#x3D;\underbrace{\mathbf A,\mathbf D_b(\Delta t)}_{\mathbf B(\Delta t)},\tilde{\mathbf s}(t+\Delta t)+\mathbf h(t+\Delta t),<br>]</p><p>其中<br>[<br>\mathbf D_b(\Delta t)&#x3D;\mathrm{diag}(b_1(\Delta t),\dots,b_K(\Delta t)).<br>]</p><hr><h2 id="6-载频补偿"><a href="#6-载频补偿" class="headerlink" title="6. 载频补偿"></a>6. 载频补偿</h2><p>若信号真实在载频 (f_0)，快拍间隔 (\Delta t) 会引入额外相位 (e^{j2\pi f_0 \Delta t})。<br>补偿后：<br>[<br>\tilde{\mathbf x}(t+\Delta t)&#x3D;\mathbf x(t+\Delta t),e^{-j2\pi f_0 \Delta t}.<br>]</p><hr><h2 id="7-空–时联合模型"><a href="#7-空–时联合模型" class="headerlink" title="7. 空–时联合模型"></a>7. 空–时联合模型</h2><h1 id="将两个快拍拼接：-mathbf-y-t-begin-bmatrix-mathbf-x-t-tilde-mathbf-x-t-Delta-t-end-bmatrix"><a href="#将两个快拍拼接：-mathbf-y-t-begin-bmatrix-mathbf-x-t-tilde-mathbf-x-t-Delta-t-end-bmatrix" class="headerlink" title="将两个快拍拼接：[\mathbf y(t)&#x3D;\begin{bmatrix}\mathbf x(t)\\tilde{\mathbf x}(t+\Delta t)\end{bmatrix}"></a>将两个快拍拼接：<br>[<br>\mathbf y(t)&#x3D;<br>\begin{bmatrix}<br>\mathbf x(t)\<br>\tilde{\mathbf x}(t+\Delta t)<br>\end{bmatrix}</h1><p>\underbrace{\begin{bmatrix}<br>\mathbf A\<br>\mathbf A,\mathbf D_b(\Delta t)<br>\end{bmatrix}}_{\mathbf A_s}<br>\begin{bmatrix}<br>\tilde{\mathbf s}(t)\<br>\tilde{\mathbf s}(t+\Delta t)<br>\end{bmatrix}<br>+<br>\begin{bmatrix}<br>\mathbf h(t)\<br>\tilde{\mathbf h}(t+\Delta t)<br>\end{bmatrix}.<br>]</p><hr><h2 id="8-一般化：空–时导向矢量"><a href="#8-一般化：空–时导向矢量" class="headerlink" title="8. 一般化：空–时导向矢量"></a>8. 一般化：空–时导向矢量</h2><p>若有 (P) 个快拍，方向 (\theta_k) 的慢时域导向矢量：<br>[<br>p_k&#x3D;[,1,<del>e^{-j2\pi f_{d,k}T},</del>\dots,~e^{-j2\pi f_{d,k}(P-1)T},]^T,<br>]<br>其中 (f_{d,k}&#x3D;\tfrac{v}{\lambda}\sin\theta_k)。</p><p>最终空–时导向矢量：<br>[<br>\boxed{;u_k &#x3D; p_k \otimes a(\theta_k);}<br>]</p><hr><h2 id="9-结论"><a href="#9-结论" class="headerlink" title="9. 结论"></a>9. 结论</h2><ul><li>(a(\theta_k))：空间几何信息（阵元间距 (d)）。  </li><li>(b_k(t))、(p_k)：运动带来的多普勒相位序列。  </li><li>空–时导向向量 (u_k)：两者的克罗内克积，等价于“虚拟扩展阵列孔径”。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>课题方向</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MIMO</tag>
+      
+      <tag>MIMO类型</tag>
+      
+      <tag>信道矩阵</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【知识补充】MIMO体系与参数</title>
+    <link href="/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/"/>
+    <url>/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/</url>
+    
+    <content type="html"><![CDATA[<h1 id="信道信息矩阵H"><a href="#信道信息矩阵H" class="headerlink" title="信道信息矩阵H"></a>信道信息矩阵H</h1><p>【参考】：<a href="https://www.sharetechnote.com/html/BasicProcedure_LTE_MIMO.html">https://www.sharetechnote.com/html/BasicProcedure_LTE_MIMO.html</a><br>一般展示了有多少数据通过每条可能的路径。值越大，在该路径上传输的数据就越多。由这些信道路径系数组成的矩阵称为“信道信息矩阵”。接收器和发射器的关系表示如下。</p><h1 id="LTE-MIMO-基本流程总结"><a href="#LTE-MIMO-基本流程总结" class="headerlink" title="LTE MIMO 基本流程总结"></a>LTE MIMO 基本流程总结</h1><p>以下内容基于 ShareTechnote 的 “LTE Basic Procedures — MIMO” 一文，整理出了 LTE 中 MIMO 的关键组成部分与流程。</p><hr><h2 id="概念与基础"><a href="#概念与基础" class="headerlink" title="概念与基础"></a>概念与基础</h2><ul><li><p><strong>MIMO (Multiple Input Multiple Output)</strong><br>利用多个发送天线和多个接收天线同时传输多个独立数据流，以提升吞吐量。与之常被混淆的是 <strong>分集 (Diversity)</strong>：多路径／多天线用于提升可靠性（降低误码率），但不一定提升速率。</p></li><li><p><strong>区分 MIMO 与分集</strong>  </p><ul><li>分集：同一数据流的多个拷贝通过多个信道路径传输 → 提高信号可靠性  </li><li>MIMO：多个不同数据流 → 高速率传输</li></ul></li></ul><hr><h2 id="整体配置与流程-Overall-Configuration-Procedure"><a href="#整体配置与流程-Overall-Configuration-Procedure" class="headerlink" title="整体配置与流程 (Overall Configuration &amp; Procedure)"></a>整体配置与流程 (Overall Configuration &amp; Procedure)</h2><p>LTE 系统中常见的 MIMO 模式 &amp; 实施流程包括：</p><table><thead><tr><th>配置类别</th><th>特点 &#x2F; 应用场景</th></tr></thead><tbody><tr><td>SU-MIMO（Single-User MIMO）</td><td>单个用户具备多个天线层，网络资源集中服务单一 UE</td></tr><tr><td>MU-MIMO（Multi-User MIMO）</td><td>基站同时服务多个用户，各用户用到不同空间资源</td></tr><tr><td>CoMP（Coordinated Multi-Point）</td><td>多基站&#x2F;小区协同传输或接收，减少小区边界干扰，LTE Release 12 引入</td></tr><tr><td>Massive MIMO</td><td>在基站端部署大规模天线阵列，5G 的核心技术，用来实现大容量、窄波束、空间复用</td></tr></tbody></table><p>流程中涉及的关键词有：</p><ul><li>预编码 (Precoding)  </li><li>信道状态估计与反馈 (Channel Estimation &#x2F; CSI Report)  </li><li>开环 &#x2F; 闭环方式（Open-Loop vs Closed-Loop）  </li><li>信令与物理层协同（RRC、MAC／PHY 等）</li></ul><hr><h2 id="数学模型-Channel-Precoding"><a href="#数学模型-Channel-Precoding" class="headerlink" title="数学模型 (Channel &amp; Precoding)"></a>数学模型 (Channel &amp; Precoding)</h2><ul><li><p>信道矩阵 (H)：假设为 (N_t \times N_r)（Tx 天线数 × Rx 天线数）<br>[<br>y &#x3D; Hx + n<br>]<br>(y) 是接收信号，(x) 是发射信号向量，(n) 是噪声。</p></li><li><p><strong>SVD 分解</strong> 用于理想预编码&#x2F;信号分流：<br>将 (H) 分解为 (U \Sigma V^H)，这样可以把信道视为若干个独立子信道（singular values）／“并行传输管道”。</p></li></ul><hr><h2 id="预编码矩阵如何确定-How-Transmitter-Learns-Precoding-Matrix"><a href="#预编码矩阵如何确定-How-Transmitter-Learns-Precoding-Matrix" class="headerlink" title="预编码矩阵如何确定 (How Transmitter Learns Precoding Matrix)"></a>预编码矩阵如何确定 (How Transmitter Learns Precoding Matrix)</h2><ul><li>UE 对下行信道做估计（基于参考信号，例如 CRS、DMRS 等）  </li><li>UE 将估计结果以某种形式反馈给 eNB（基站），供预编码使用</li></ul><p>方式包括：</p><table><thead><tr><th>方法</th><th>优点</th><th>缺点 &#x2F; 约束</th></tr></thead><tbody><tr><td><strong>直接反馈完整矩阵</strong></td><td>功能最强、灵活</td><td>反馈开销大，不实用</td></tr><tr><td><strong>码本（Codebook）+ 索引反馈</strong></td><td>反馈开销小、标准化好实现</td><td>限制预编码矩阵只在码本集合内，可能不完全最优</td></tr><tr><td><strong>开环预编码 &#x2F; 随机／固定预编码</strong></td><td>对于 CSI 不可用或快速变化情况可用</td><td>效率低于闭环预编码</td></tr></tbody></table><hr><h2 id="实际考量-Considerations-in-Reality"><a href="#实际考量-Considerations-in-Reality" class="headerlink" title="实际考量 (Considerations in Reality)"></a>实际考量 (Considerations in Reality)</h2><p>在真实系统里，还要考虑以下问题：</p><ul><li><strong>CSI 时延 &amp; 变化</strong>：反馈出来的预编码&#x2F;信道信息如果延时大，可能在下一个子帧时信道已变，从而效果下降。  </li><li><strong>反馈开销</strong>：完整矩阵反馈成本高；码本 + 索引方式是常见折中。  </li><li><strong>信道条件不理想</strong>：信道矩阵可能病态（condition number 高）、秩低（rank 小），导致空间复用效果打折。</li></ul><hr><h2 id="其他关键指标"><a href="#其他关键指标" class="headerlink" title="其他关键指标"></a>其他关键指标</h2><ul><li><p><strong>Rank Indicator (RI)</strong><br>UE 报告信道可支持的并行流数目（即信道矩阵的秩或其估计）。RI &#x3D; 1 表示几乎单天线 &#x2F; 分集方式；RI &#x3D; 2 或更多表示支持多个数据流。</p></li><li><p><strong>Condition Number（条件数）</strong><br>度量信道中独立子信道的质量分布；即使 RI 较高，如果某些 singular values 很小，则条件数差 → 空间复用性能不佳。</p></li></ul><hr><h2 id="UE-与-Network-互相理解能力-Capability-Exchange"><a href="#UE-与-Network-互相理解能力-Capability-Exchange" class="headerlink" title="UE 与 Network 互相理解能力 (Capability Exchange)"></a>UE 与 Network 互相理解能力 (Capability Exchange)</h2><ul><li>UE 需要告诉网络自身支持多少天线层次／支持哪种 MIMO 配置（发送／接收天线数、层数）。  </li><li>网络也需要知道 UE 的能力来决定要启动哪种 Transmission Mode &#x2F; 预编码方式。  </li><li>在 LTE 标准里，这些通常通过 <strong>UE Capability 信息</strong> &#x2F; <strong>RRC &#x2F; Attach &#x2F; Connection Setup</strong> 中带的天线／层数／预编码能力报告完成。</li></ul><hr><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul><li>LTE 中的 MIMO 从理念到实现要考虑很多实际细节：信道估计、反馈方式、预编码选取、Rank &#x2F; 条件数等。  </li><li>理想情况下，多天线 + 良好信道 → 高空间复用增益，提升容量；但实际中这些指标常常受限（反馈延时、信道不理想、硬件限制等）。  </li><li>标准设计中采取多种 Transmission Mode + 预编码码本 + Rank Indicator + Condition Number 等度量方式来折中／优化。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>知识补充</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MIMO</tag>
+      
+      <tag>MIMO类型</tag>
+      
+      <tag>信道矩阵</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【知识补充】LFM信号和CPM信号</title>
     <link href="/2025/09/02/LFM+CPM/"/>
     <url>/2025/09/02/LFM+CPM/</url>
@@ -224,6 +295,31 @@
     <tags>
       
       <tag>ISAC</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【论文阅读】6G 通感一体化:从传统 MIMO 到稀疏 MIMO</title>
+    <link href="/2025/08/19/MIMO%E7%A8%80%E7%96%8F%E5%8C%96/"/>
+    <url>/2025/08/19/MIMO%E7%A8%80%E7%96%8F%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<h1 id="对这篇文章的看法："><a href="#对这篇文章的看法：" class="headerlink" title="对这篇文章的看法："></a>对这篇文章的看法：</h1><h2 id="摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；"><a href="#摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；" class="headerlink" title="摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；"></a>摘要给的基本思路一致都是虚拟阵列，形成更大的自由度，达到更好的估计效果；</h2><h2 id="不同的部分：他是MIMO阵列-可能不是差分阵列，这点可以看看石师兄的；"><a href="#不同的部分：他是MIMO阵列-可能不是差分阵列，这点可以看看石师兄的；" class="headerlink" title="不同的部分：他是MIMO阵列 可能不是差分阵列，这点可以看看石师兄的；"></a>不同的部分：他是MIMO阵列 可能不是差分阵列，这点可以看看石师兄的；</h2><h1 id="存疑点："><a href="#存疑点：" class="headerlink" title="存疑点："></a>存疑点：</h1><h2 id="1-模块化阵列"><a href="#1-模块化阵列" class="headerlink" title="1.模块化阵列"></a>1.模块化阵列</h2><h2 id="2-一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。"><a href="#2-一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。" class="headerlink" title="2.一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。"></a>2.一直在讲谁在干什么，谁在干什么，但我想知道的是一个具体阵列会给ISAC场景带来怎样的提升，是如何进行验证的。</h2><h1 id="大体框架"><a href="#大体框架" class="headerlink" title="大体框架"></a>大体框架</h1><h2 id="这里更感觉是对相关指标的介绍"><a href="#这里更感觉是对相关指标的介绍" class="headerlink" title="这里更感觉是对相关指标的介绍"></a>这里更感觉是对相关指标的介绍</h2><p>MIMO稀疏化通信方向<br>├── 空间分辨率<br>│   ├── 信号分离能力：在多用户场景下，用户间的角度可能很接近，如果分辨率不足，就会造成干扰，导致性能下降。<br>│   ├── 空分复用（Spatial Multiplexing）：空间分辨率高，可以在相同的频率和时间资源上服务更多用户，提高频谱效率。<br>│   ├── 波束赋形（Beamforming）精度：高空间分辨率能形成更窄、更准的波束，从而提升链路质量，降低能量泄露和干扰。<br>│   └── 信道建模和估计：在稀疏 MIMO 中，信道常常只有有限个稀疏角度路径，高分辨率可以更准确地捕捉这些稀疏特征。<br>├── 通信速率<br>│   ├── 比较了基站侧稀疏度和用户稀疏度两个维度变量的变化程度<br>├── 空间复用增益<br>│   ├── 提出了一个“自由度”的概念，不同于阵列设计中的自由度；<br>│   ├── EDOF，好像指与MIMO信道相关概念有关？<br>├── 信道容量<br>└── 存在问题<br>MIMO稀疏化感知方向<br>├── 空间分辨率<br>│   ├──<br>├── 感知自由度<br>│   ├── 这个和我理解的一样<br>│   ├── 提出了一个“自由度”的概念，不同于阵列设计中的自由度；<br>├── 其他部分介绍的不好；<br>└── 总体说的很粗略，少有ISAC+稀疏阵列的概念；</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>文献阅读</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MIMO稀疏化</tag>
       
     </tags>
     

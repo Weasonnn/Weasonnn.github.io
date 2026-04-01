@@ -19,24 +19,24 @@
   <meta name="author" content="Yichen Wu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="LFM 信号介绍LFM 信号就是 线性调频信号（Linear Frequency Modulated signal），也叫 Chirp 信号。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。    1. 基本表达式一个标准的 LFM 信号可以写成： $s(t) &#x3D; A \cos \Big( 2\pi \big( f_c">
+    <meta name="description" content="信道信息矩阵H【参考】：https:&#x2F;&#x2F;www.sharetechnote.com&#x2F;html&#x2F;BasicProcedure_LTE_MIMO.html一般展示了有多少数据通过每条可能的路径。值越大，在该路径上传输的数据就越多。由这些信道路径系数组成的矩阵称为“信道信息矩阵”。接收器和发射器的关系表示如下。 LTE MIMO 基本流程总结以下内容基于 ShareTechnote 的 “LTE Bas">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【知识补充】LFM信号和CPM信号">
-<meta property="og:url" content="http://example.com/2025/09/02/LFM+CPM/index.html">
+<meta property="og:title" content="【知识补充】MIMO体系与参数">
+<meta property="og:url" content="http://example.com/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/index.html">
 <meta property="og:site_name" content="Weason&#39;s home">
-<meta property="og:description" content="LFM 信号介绍LFM 信号就是 线性调频信号（Linear Frequency Modulated signal），也叫 Chirp 信号。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。    1. 基本表达式一个标准的 LFM 信号可以写成： $s(t) &#x3D; A \cos \Big( 2\pi \big( f_c">
+<meta property="og:description" content="信道信息矩阵H【参考】：https:&#x2F;&#x2F;www.sharetechnote.com&#x2F;html&#x2F;BasicProcedure_LTE_MIMO.html一般展示了有多少数据通过每条可能的路径。值越大，在该路径上传输的数据就越多。由这些信道路径系数组成的矩阵称为“信道信息矩阵”。接收器和发射器的关系表示如下。 LTE MIMO 基本流程总结以下内容基于 ShareTechnote 的 “LTE Bas">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-09-02T15:06:37.000Z">
-<meta property="article:modified_time" content="2025-09-02T09:06:25.472Z">
+<meta property="article:published_time" content="2025-09-22T17:50:37.000Z">
+<meta property="article:modified_time" content="2025-09-22T09:56:21.643Z">
 <meta property="article:author" content="Yichen Wu">
-<meta property="article:tag" content="连续相位调制">
-<meta property="article:tag" content="CPM">
-<meta property="article:tag" content="LFM">
+<meta property="article:tag" content="MIMO">
+<meta property="article:tag" content="MIMO类型">
+<meta property="article:tag" content="信道矩阵">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>【知识补充】LFM信号和CPM信号 - Weason&#39;s home</title>
+  <title>【知识补充】MIMO体系与参数 - Weason&#39;s home</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="【知识补充】LFM信号和CPM信号"></span>
+            <span id="subtitle" data-typed-text="【知识补充】MIMO体系与参数"></span>
           
         </div>
 
@@ -213,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-09-02 15:06" pubdate>
-          2025年9月2日 下午
+        <time datetime="2025-09-22 17:50" pubdate>
+          2025年9月22日 下午
         </time>
       </span>
     
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          327 字
+          1.1k 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          3 分钟
+          10 分钟
         
       </span>
     
@@ -273,35 +273,119 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【知识补充】LFM信号和CPM信号</h1>
+            <h1 id="seo-header">【知识补充】MIMO体系与参数</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="LFM-信号介绍"><a href="#LFM-信号介绍" class="headerlink" title="LFM 信号介绍"></a>LFM 信号介绍</h1><p>LFM 信号就是 <strong>线性调频信号</strong>（Linear Frequency Modulated signal），也叫 <strong>Chirp 信号</strong>。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。  </p>
+                <h1 id="信道信息矩阵H"><a href="#信道信息矩阵H" class="headerlink" title="信道信息矩阵H"></a>信道信息矩阵H</h1><p>【参考】：<a target="_blank" rel="noopener" href="https://www.sharetechnote.com/html/BasicProcedure_LTE_MIMO.html">https://www.sharetechnote.com/html/BasicProcedure_LTE_MIMO.html</a><br>一般展示了有多少数据通过每条可能的路径。值越大，在该路径上传输的数据就越多。由这些信道路径系数组成的矩阵称为“信道信息矩阵”。接收器和发射器的关系表示如下。</p>
+<h1 id="LTE-MIMO-基本流程总结"><a href="#LTE-MIMO-基本流程总结" class="headerlink" title="LTE MIMO 基本流程总结"></a>LTE MIMO 基本流程总结</h1><p>以下内容基于 ShareTechnote 的 “LTE Basic Procedures — MIMO” 一文，整理出了 LTE 中 MIMO 的关键组成部分与流程。</p>
 <hr>
-<h2 id="1-基本表达式"><a href="#1-基本表达式" class="headerlink" title="1. 基本表达式"></a>1. 基本表达式</h2><p>一个标准的 LFM 信号可以写成：</p>
-<p>$s(t) &#x3D; A \cos \Big( 2\pi \big( f_c t + \tfrac{1}{2} \mu t^2 \big) + \varphi_0 \Big), \quad 0 \leq t \leq T$</p>
-<p>其中：</p>
+<h2 id="概念与基础"><a href="#概念与基础" class="headerlink" title="概念与基础"></a>概念与基础</h2><ul>
+<li><p><strong>MIMO (Multiple Input Multiple Output)</strong><br>利用多个发送天线和多个接收天线同时传输多个独立数据流，以提升吞吐量。与之常被混淆的是 <strong>分集 (Diversity)</strong>：多路径／多天线用于提升可靠性（降低误码率），但不一定提升速率。</p>
+</li>
+<li><p><strong>区分 MIMO 与分集</strong>  </p>
 <ul>
-<li>$A$：信号幅度  </li>
-<li>$f_c$：载频（中心频率）  </li>
-<li>$\mu &#x3D; \frac{B}{T}$：调频斜率，表示频率随时间变化的快慢  </li>
-<li>$B$：带宽（频率变化总量）  </li>
-<li>$T$：脉冲宽度（持续时间）  </li>
-<li>$\varphi_0$：初始相位</li>
+<li>分集：同一数据流的多个拷贝通过多个信道路径传输 → 提高信号可靠性  </li>
+<li>MIMO：多个不同数据流 → 高速率传输</li>
+</ul>
+</li>
 </ul>
 <hr>
-<h2 id="2-瞬时频率的解释"><a href="#2-瞬时频率的解释" class="headerlink" title="2. 瞬时频率的解释"></a>2. 瞬时频率的解释</h2><p>信号相位为：</p>
-<p>$\phi(t) &#x3D; 2\pi \big( f_c t + \tfrac{1}{2}\mu t^2 \big) + \varphi_0$</p>
-<p>瞬时频率是相位对时间的导数：</p>
-<p>$f(t) &#x3D; \frac{1}{2\pi} \frac{d\phi(t)}{dt} &#x3D; f_c + \mu t$</p>
-<p>可以看出频率随时间呈线性增加（上扫频）或减小（下扫频）。</p>
+<h2 id="整体配置与流程-Overall-Configuration-Procedure"><a href="#整体配置与流程-Overall-Configuration-Procedure" class="headerlink" title="整体配置与流程 (Overall Configuration &amp; Procedure)"></a>整体配置与流程 (Overall Configuration &amp; Procedure)</h2><p>LTE 系统中常见的 MIMO 模式 &amp; 实施流程包括：</p>
+<table>
+<thead>
+<tr>
+<th>配置类别</th>
+<th>特点 &#x2F; 应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SU-MIMO（Single-User MIMO）</td>
+<td>单个用户具备多个天线层，网络资源集中服务单一 UE</td>
+</tr>
+<tr>
+<td>MU-MIMO（Multi-User MIMO）</td>
+<td>基站同时服务多个用户，各用户用到不同空间资源</td>
+</tr>
+<tr>
+<td>CoMP（Coordinated Multi-Point）</td>
+<td>多基站&#x2F;小区协同传输或接收，减少小区边界干扰，LTE Release 12 引入</td>
+</tr>
+<tr>
+<td>Massive MIMO</td>
+<td>在基站端部署大规模天线阵列，5G 的核心技术，用来实现大容量、窄波束、空间复用</td>
+</tr>
+</tbody></table>
+<p>流程中涉及的关键词有：</p>
+<ul>
+<li>预编码 (Precoding)  </li>
+<li>信道状态估计与反馈 (Channel Estimation &#x2F; CSI Report)  </li>
+<li>开环 &#x2F; 闭环方式（Open-Loop vs Closed-Loop）  </li>
+<li>信令与物理层协同（RRC、MAC／PHY 等）</li>
+</ul>
 <hr>
-<h2 id="3-物理意义"><a href="#3-物理意义" class="headerlink" title="3. 物理意义"></a>3. 物理意义</h2><ul>
-<li><strong>时间–频率特性</strong>：从 $f_c - \tfrac{B}{2}$ 到 $f_c + \tfrac{B}{2}$ 线性变化。  </li>
-<li><strong>优点</strong>：带宽大 → 距离分辨率高；能量集中在一个长脉冲内 → 提高信噪比。  </li>
-<li><strong>典型应用</strong>：雷达脉冲压缩、合成孔径雷达成像（SAR）、超声探测、通信扩频。</li>
+<h2 id="数学模型-Channel-Precoding"><a href="#数学模型-Channel-Precoding" class="headerlink" title="数学模型 (Channel &amp; Precoding)"></a>数学模型 (Channel &amp; Precoding)</h2><ul>
+<li><p>信道矩阵 (H)：假设为 (N_t \times N_r)（Tx 天线数 × Rx 天线数）<br>[<br>y &#x3D; Hx + n<br>]<br>(y) 是接收信号，(x) 是发射信号向量，(n) 是噪声。</p>
+</li>
+<li><p><strong>SVD 分解</strong> 用于理想预编码&#x2F;信号分流：<br>将 (H) 分解为 (U \Sigma V^H)，这样可以把信道视为若干个独立子信道（singular values）／“并行传输管道”。</p>
+</li>
+</ul>
+<hr>
+<h2 id="预编码矩阵如何确定-How-Transmitter-Learns-Precoding-Matrix"><a href="#预编码矩阵如何确定-How-Transmitter-Learns-Precoding-Matrix" class="headerlink" title="预编码矩阵如何确定 (How Transmitter Learns Precoding Matrix)"></a>预编码矩阵如何确定 (How Transmitter Learns Precoding Matrix)</h2><ul>
+<li>UE 对下行信道做估计（基于参考信号，例如 CRS、DMRS 等）  </li>
+<li>UE 将估计结果以某种形式反馈给 eNB（基站），供预编码使用</li>
+</ul>
+<p>方式包括：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点 &#x2F; 约束</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>直接反馈完整矩阵</strong></td>
+<td>功能最强、灵活</td>
+<td>反馈开销大，不实用</td>
+</tr>
+<tr>
+<td><strong>码本（Codebook）+ 索引反馈</strong></td>
+<td>反馈开销小、标准化好实现</td>
+<td>限制预编码矩阵只在码本集合内，可能不完全最优</td>
+</tr>
+<tr>
+<td><strong>开环预编码 &#x2F; 随机／固定预编码</strong></td>
+<td>对于 CSI 不可用或快速变化情况可用</td>
+<td>效率低于闭环预编码</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="实际考量-Considerations-in-Reality"><a href="#实际考量-Considerations-in-Reality" class="headerlink" title="实际考量 (Considerations in Reality)"></a>实际考量 (Considerations in Reality)</h2><p>在真实系统里，还要考虑以下问题：</p>
+<ul>
+<li><strong>CSI 时延 &amp; 变化</strong>：反馈出来的预编码&#x2F;信道信息如果延时大，可能在下一个子帧时信道已变，从而效果下降。  </li>
+<li><strong>反馈开销</strong>：完整矩阵反馈成本高；码本 + 索引方式是常见折中。  </li>
+<li><strong>信道条件不理想</strong>：信道矩阵可能病态（condition number 高）、秩低（rank 小），导致空间复用效果打折。</li>
+</ul>
+<hr>
+<h2 id="其他关键指标"><a href="#其他关键指标" class="headerlink" title="其他关键指标"></a>其他关键指标</h2><ul>
+<li><p><strong>Rank Indicator (RI)</strong><br>UE 报告信道可支持的并行流数目（即信道矩阵的秩或其估计）。RI &#x3D; 1 表示几乎单天线 &#x2F; 分集方式；RI &#x3D; 2 或更多表示支持多个数据流。</p>
+</li>
+<li><p><strong>Condition Number（条件数）</strong><br>度量信道中独立子信道的质量分布；即使 RI 较高，如果某些 singular values 很小，则条件数差 → 空间复用性能不佳。</p>
+</li>
+</ul>
+<hr>
+<h2 id="UE-与-Network-互相理解能力-Capability-Exchange"><a href="#UE-与-Network-互相理解能力-Capability-Exchange" class="headerlink" title="UE 与 Network 互相理解能力 (Capability Exchange)"></a>UE 与 Network 互相理解能力 (Capability Exchange)</h2><ul>
+<li>UE 需要告诉网络自身支持多少天线层次／支持哪种 MIMO 配置（发送／接收天线数、层数）。  </li>
+<li>网络也需要知道 UE 的能力来决定要启动哪种 Transmission Mode &#x2F; 预编码方式。  </li>
+<li>在 LTE 标准里，这些通常通过 <strong>UE Capability 信息</strong> &#x2F; <strong>RRC &#x2F; Attach &#x2F; Connection Setup</strong> 中带的天线／层数／预编码能力报告完成。</li>
+</ul>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>LTE 中的 MIMO 从理念到实现要考虑很多实际细节：信道估计、反馈方式、预编码选取、Rank &#x2F; 条件数等。  </li>
+<li>理想情况下，多天线 + 良好信道 → 高空间复用增益，提升容量；但实际中这些指标常常受限（反馈延时、信道不理想、硬件限制等）。  </li>
+<li>标准设计中采取多种 Transmission Mode + 预编码码本 + Rank Indicator + Condition Number 等度量方式来折中／优化。</li>
 </ul>
 
                 
@@ -336,11 +420,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BF%9E%E7%BB%AD%E7%9B%B8%E4%BD%8D%E8%B0%83%E5%88%B6/" class="print-no-link">#连续相位调制</a>
+        <a href="/tags/MIMO/" class="print-no-link">#MIMO</a>
       
-        <a href="/tags/CPM/" class="print-no-link">#CPM</a>
+        <a href="/tags/MIMO%E7%B1%BB%E5%9E%8B/" class="print-no-link">#MIMO类型</a>
       
-        <a href="/tags/LFM/" class="print-no-link">#LFM</a>
+        <a href="/tags/%E4%BF%A1%E9%81%93%E7%9F%A9%E9%98%B5/" class="print-no-link">#信道矩阵</a>
       
     </div>
   
@@ -352,8 +436,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【知识补充】LFM信号和CPM信号</div>
-      <div>http://example.com/2025/09/02/LFM+CPM/</div>
+      <div>【知识补充】MIMO体系与参数</div>
+      <div>http://example.com/2025/09/23/MIMO相关/</div>
     </div>
     <div class="license-meta">
       
@@ -365,7 +449,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年9月2日</div>
+          <div>2025年9月22日</div>
         </div>
       
       
@@ -397,9 +481,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/" title="【知识补充】MIMO体系与参数">
+                      <a href="/2025/09/23/%E7%A7%BB%E5%8A%A8%E9%98%B5%E5%88%97%E7%90%86%E8%AE%BA%E6%A8%A1%E5%9E%8B/" title="【课题方向】移动阵列信号模型">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【知识补充】MIMO体系与参数</span>
+                        <span class="hidden-mobile">【课题方向】移动阵列信号模型</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -407,8 +491,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/09/02/CPM/" title="【知识补充】CPM波形理解+相位概念延伸">
-                        <span class="hidden-mobile">【知识补充】CPM波形理解+相位概念延伸</span>
+                      <a href="/2025/09/02/LFM+CPM/" title="【知识补充】LFM信号和CPM信号">
+                        <span class="hidden-mobile">【知识补充】LFM信号和CPM信号</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

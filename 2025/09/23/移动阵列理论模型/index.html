@@ -19,24 +19,24 @@
   <meta name="author" content="Yichen Wu">
   <meta name="keywords" content="">
   
-    <meta name="description" content="LFM 信号介绍LFM 信号就是 线性调频信号（Linear Frequency Modulated signal），也叫 Chirp 信号。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。    1. 基本表达式一个标准的 LFM 信号可以写成： $s(t) &#x3D; A \cos \Big( 2\pi \big( f_c">
+    <meta name="description" content="移动阵列接收信号建模推导1. 阵列与信号模型 阵列：一维均匀线阵 (ULA)，阵元位置[x_m &#x3D; m d,\quad m&#x3D;0,\dots,L-1] 运动：阵列整体以速度 (v) 沿阵列轴向匀速移动。 第 (k) 个远场信号源：方向角 (\theta_k)，信号 (s_k(t))。 波长：(\lambda)，波数 (k_0&#x3D;2\pi&#x2F;\lambda)。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【知识补充】LFM信号和CPM信号">
-<meta property="og:url" content="http://example.com/2025/09/02/LFM+CPM/index.html">
+<meta property="og:title" content="【课题方向】移动阵列信号模型">
+<meta property="og:url" content="http://example.com/2025/09/23/%E7%A7%BB%E5%8A%A8%E9%98%B5%E5%88%97%E7%90%86%E8%AE%BA%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Weason&#39;s home">
-<meta property="og:description" content="LFM 信号介绍LFM 信号就是 线性调频信号（Linear Frequency Modulated signal），也叫 Chirp 信号。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。    1. 基本表达式一个标准的 LFM 信号可以写成： $s(t) &#x3D; A \cos \Big( 2\pi \big( f_c">
+<meta property="og:description" content="移动阵列接收信号建模推导1. 阵列与信号模型 阵列：一维均匀线阵 (ULA)，阵元位置[x_m &#x3D; m d,\quad m&#x3D;0,\dots,L-1] 运动：阵列整体以速度 (v) 沿阵列轴向匀速移动。 第 (k) 个远场信号源：方向角 (\theta_k)，信号 (s_k(t))。 波长：(\lambda)，波数 (k_0&#x3D;2\pi&#x2F;\lambda)。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-09-02T15:06:37.000Z">
-<meta property="article:modified_time" content="2025-09-02T09:06:25.472Z">
+<meta property="article:published_time" content="2025-09-23T11:12:37.000Z">
+<meta property="article:modified_time" content="2025-09-23T03:12:46.804Z">
 <meta property="article:author" content="Yichen Wu">
-<meta property="article:tag" content="连续相位调制">
-<meta property="article:tag" content="CPM">
-<meta property="article:tag" content="LFM">
+<meta property="article:tag" content="MIMO">
+<meta property="article:tag" content="MIMO类型">
+<meta property="article:tag" content="信道矩阵">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>【知识补充】LFM信号和CPM信号 - Weason&#39;s home</title>
+  <title>【课题方向】移动阵列信号模型 - Weason&#39;s home</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="【知识补充】LFM信号和CPM信号"></span>
+            <span id="subtitle" data-typed-text="【课题方向】移动阵列信号模型"></span>
           
         </div>
 
@@ -213,8 +213,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-09-02 15:06" pubdate>
-          2025年9月2日 下午
+        <time datetime="2025-09-23 11:12" pubdate>
+          2025年9月23日 上午
         </time>
       </span>
     
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          327 字
+          545 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          3 分钟
+          5 分钟
         
       </span>
     
@@ -273,35 +273,42 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">【知识补充】LFM信号和CPM信号</h1>
+            <h1 id="seo-header">【课题方向】移动阵列信号模型</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="LFM-信号介绍"><a href="#LFM-信号介绍" class="headerlink" title="LFM 信号介绍"></a>LFM 信号介绍</h1><p>LFM 信号就是 <strong>线性调频信号</strong>（Linear Frequency Modulated signal），也叫 <strong>Chirp 信号</strong>。它的特点是：在一段有限时间内，信号的瞬时频率随时间作线性变化。常见于雷达、声呐、通信系统中，用于脉冲压缩和高分辨成像。  </p>
-<hr>
-<h2 id="1-基本表达式"><a href="#1-基本表达式" class="headerlink" title="1. 基本表达式"></a>1. 基本表达式</h2><p>一个标准的 LFM 信号可以写成：</p>
-<p>$s(t) &#x3D; A \cos \Big( 2\pi \big( f_c t + \tfrac{1}{2} \mu t^2 \big) + \varphi_0 \Big), \quad 0 \leq t \leq T$</p>
-<p>其中：</p>
-<ul>
-<li>$A$：信号幅度  </li>
-<li>$f_c$：载频（中心频率）  </li>
-<li>$\mu &#x3D; \frac{B}{T}$：调频斜率，表示频率随时间变化的快慢  </li>
-<li>$B$：带宽（频率变化总量）  </li>
-<li>$T$：脉冲宽度（持续时间）  </li>
-<li>$\varphi_0$：初始相位</li>
+                <h1 id="移动阵列接收信号建模推导"><a href="#移动阵列接收信号建模推导" class="headerlink" title="移动阵列接收信号建模推导"></a>移动阵列接收信号建模推导</h1><h2 id="1-阵列与信号模型"><a href="#1-阵列与信号模型" class="headerlink" title="1. 阵列与信号模型"></a>1. 阵列与信号模型</h2><ul>
+<li>阵列：一维均匀线阵 (ULA)，阵元位置<br>[<br>x_m &#x3D; m d,\quad m&#x3D;0,\dots,L-1<br>]</li>
+<li>运动：阵列整体以速度 (v) 沿阵列轴向匀速移动。</li>
+<li>第 (k) 个远场信号源：方向角 (\theta_k)，信号 (s_k(t))。</li>
+<li>波长：(\lambda)，波数 (k_0&#x3D;2\pi&#x2F;\lambda)。</li>
 </ul>
 <hr>
-<h2 id="2-瞬时频率的解释"><a href="#2-瞬时频率的解释" class="headerlink" title="2. 瞬时频率的解释"></a>2. 瞬时频率的解释</h2><p>信号相位为：</p>
-<p>$\phi(t) &#x3D; 2\pi \big( f_c t + \tfrac{1}{2}\mu t^2 \big) + \varphi_0$</p>
-<p>瞬时频率是相位对时间的导数：</p>
-<p>$f(t) &#x3D; \frac{1}{2\pi} \frac{d\phi(t)}{dt} &#x3D; f_c + \mu t$</p>
-<p>可以看出频率随时间呈线性增加（上扫频）或减小（下扫频）。</p>
+<h2 id="2-静止阵列的导向矢量"><a href="#2-静止阵列的导向矢量" class="headerlink" title="2. 静止阵列的导向矢量"></a>2. 静止阵列的导向矢量</h2><p>[<br>a(\theta_k)&#x3D;<br>\begin{bmatrix}<br>e^{-j k_0 x_0\sin\theta_k},~<br>e^{-j k_0 x_1\sin\theta_k},~<br>\dots,~<br>e^{-j k_0 x_{L-1}\sin\theta_k}<br>\end{bmatrix}^{T}.<br>]</p>
+<p>阵列流形矩阵：<br>[<br>\mathbf A&#x3D;[,a(\theta_1),\dots,a(\theta_K),].<br>]</p>
 <hr>
-<h2 id="3-物理意义"><a href="#3-物理意义" class="headerlink" title="3. 物理意义"></a>3. 物理意义</h2><ul>
-<li><strong>时间–频率特性</strong>：从 $f_c - \tfrac{B}{2}$ 到 $f_c + \tfrac{B}{2}$ 线性变化。  </li>
-<li><strong>优点</strong>：带宽大 → 距离分辨率高；能量集中在一个长脉冲内 → 提高信噪比。  </li>
-<li><strong>典型应用</strong>：雷达脉冲压缩、合成孔径雷达成像（SAR）、超声探测、通信扩频。</li>
+<h2 id="3-运动带来的公共相位"><a href="#3-运动带来的公共相位" class="headerlink" title="3. 运动带来的公共相位"></a>3. 运动带来的公共相位</h2><p>阵列整体位移：<br>[<br>\Delta x(t)&#x3D;v t,<br>]<br>相位增量：<br>[<br>\phi_k(t)&#x3D;k_0 v t \sin\theta_k &#x3D; \frac{2\pi}{\lambda} v t \sin\theta_k.<br>]</p>
+<p>公共相位因子：<br>[<br>b_k(t)&#x3D;\exp!\left(-j \frac{2\pi}{\lambda} v t \sin\theta_k\right).<br>]</p>
+<hr>
+<h2 id="4-单个快拍的信号模型"><a href="#4-单个快拍的信号模型" class="headerlink" title="4. 单个快拍的信号模型"></a>4. 单个快拍的信号模型</h2><p>把公共相位并入信号：<br>[<br>\tilde s_k(t)&#x3D;b_k(t),s_k(t), \quad<br>\tilde{\mathbf s}(t)&#x3D;[\tilde s_1(t),\dots,\tilde s_K(t)]^T.<br>]</p>
+<p>接收信号：<br>[<br>\boxed{;\mathbf x(t)&#x3D;\mathbf A,\tilde{\mathbf s}(t)+\mathbf h(t);}<br>]</p>
+<hr>
+<h2 id="5-两个快拍的模型"><a href="#5-两个快拍的模型" class="headerlink" title="5. 两个快拍的模型"></a>5. 两个快拍的模型</h2><p>在 (t+\Delta t) 时刻：<br>[<br>b_k(t+\Delta t)&#x3D;b_k(t),b_k(\Delta t),<br>]<br>其中<br>[<br>b_k(\Delta t)&#x3D;\exp!\left(-j \frac{2\pi}{\lambda} v \Delta t \sin\theta_k\right).<br>]</p>
+<p>因此：<br>[<br>\mathbf x(t+\Delta t)&#x3D;\underbrace{\mathbf A,\mathbf D_b(\Delta t)}_{\mathbf B(\Delta t)},\tilde{\mathbf s}(t+\Delta t)+\mathbf h(t+\Delta t),<br>]</p>
+<p>其中<br>[<br>\mathbf D_b(\Delta t)&#x3D;\mathrm{diag}(b_1(\Delta t),\dots,b_K(\Delta t)).<br>]</p>
+<hr>
+<h2 id="6-载频补偿"><a href="#6-载频补偿" class="headerlink" title="6. 载频补偿"></a>6. 载频补偿</h2><p>若信号真实在载频 (f_0)，快拍间隔 (\Delta t) 会引入额外相位 (e^{j2\pi f_0 \Delta t})。<br>补偿后：<br>[<br>\tilde{\mathbf x}(t+\Delta t)&#x3D;\mathbf x(t+\Delta t),e^{-j2\pi f_0 \Delta t}.<br>]</p>
+<hr>
+<h2 id="7-空–时联合模型"><a href="#7-空–时联合模型" class="headerlink" title="7. 空–时联合模型"></a>7. 空–时联合模型</h2><h1 id="将两个快拍拼接：-mathbf-y-t-begin-bmatrix-mathbf-x-t-tilde-mathbf-x-t-Delta-t-end-bmatrix"><a href="#将两个快拍拼接：-mathbf-y-t-begin-bmatrix-mathbf-x-t-tilde-mathbf-x-t-Delta-t-end-bmatrix" class="headerlink" title="将两个快拍拼接：[\mathbf y(t)&#x3D;\begin{bmatrix}\mathbf x(t)\\tilde{\mathbf x}(t+\Delta t)\end{bmatrix}"></a>将两个快拍拼接：<br>[<br>\mathbf y(t)&#x3D;<br>\begin{bmatrix}<br>\mathbf x(t)\<br>\tilde{\mathbf x}(t+\Delta t)<br>\end{bmatrix}</h1><p>\underbrace{\begin{bmatrix}<br>\mathbf A\<br>\mathbf A,\mathbf D_b(\Delta t)<br>\end{bmatrix}}_{\mathbf A_s}<br>\begin{bmatrix}<br>\tilde{\mathbf s}(t)\<br>\tilde{\mathbf s}(t+\Delta t)<br>\end{bmatrix}<br>+<br>\begin{bmatrix}<br>\mathbf h(t)\<br>\tilde{\mathbf h}(t+\Delta t)<br>\end{bmatrix}.<br>]</p>
+<hr>
+<h2 id="8-一般化：空–时导向矢量"><a href="#8-一般化：空–时导向矢量" class="headerlink" title="8. 一般化：空–时导向矢量"></a>8. 一般化：空–时导向矢量</h2><p>若有 (P) 个快拍，方向 (\theta_k) 的慢时域导向矢量：<br>[<br>p_k&#x3D;[,1,<del>e^{-j2\pi f_{d,k}T},</del>\dots,~e^{-j2\pi f_{d,k}(P-1)T},]^T,<br>]<br>其中 (f_{d,k}&#x3D;\tfrac{v}{\lambda}\sin\theta_k)。</p>
+<p>最终空–时导向矢量：<br>[<br>\boxed{;u_k &#x3D; p_k \otimes a(\theta_k);}<br>]</p>
+<hr>
+<h2 id="9-结论"><a href="#9-结论" class="headerlink" title="9. 结论"></a>9. 结论</h2><ul>
+<li>(a(\theta_k))：空间几何信息（阵元间距 (d)）。  </li>
+<li>(b_k(t))、(p_k)：运动带来的多普勒相位序列。  </li>
+<li>空–时导向向量 (u_k)：两者的克罗内克积，等价于“虚拟扩展阵列孔径”。</li>
 </ul>
 
                 
@@ -321,7 +328,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" class="category-chain-item">知识补充</a>
+  <a href="/categories/%E8%AF%BE%E9%A2%98%E6%96%B9%E5%90%91/" class="category-chain-item">课题方向</a>
   
   
 
@@ -336,11 +343,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BF%9E%E7%BB%AD%E7%9B%B8%E4%BD%8D%E8%B0%83%E5%88%B6/" class="print-no-link">#连续相位调制</a>
+        <a href="/tags/MIMO/" class="print-no-link">#MIMO</a>
       
-        <a href="/tags/CPM/" class="print-no-link">#CPM</a>
+        <a href="/tags/MIMO%E7%B1%BB%E5%9E%8B/" class="print-no-link">#MIMO类型</a>
       
-        <a href="/tags/LFM/" class="print-no-link">#LFM</a>
+        <a href="/tags/%E4%BF%A1%E9%81%93%E7%9F%A9%E9%98%B5/" class="print-no-link">#信道矩阵</a>
       
     </div>
   
@@ -352,8 +359,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>【知识补充】LFM信号和CPM信号</div>
-      <div>http://example.com/2025/09/02/LFM+CPM/</div>
+      <div>【课题方向】移动阵列信号模型</div>
+      <div>http://example.com/2025/09/23/移动阵列理论模型/</div>
     </div>
     <div class="license-meta">
       
@@ -365,7 +372,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年9月2日</div>
+          <div>2025年9月23日</div>
         </div>
       
       
@@ -397,9 +404,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/" title="【知识补充】MIMO体系与参数">
+                      <a href="/2026/04/01/DOA%E6%B3%A2%E6%9D%9F%E6%8C%87%E5%90%91%E4%B8%8E%E5%BF%AB%E6%8B%8D%E4%BC%B0%E8%AE%A1%E7%9A%84%E5%B7%AE%E5%BC%82/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【知识补充】MIMO体系与参数</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -407,8 +414,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/09/02/CPM/" title="【知识补充】CPM波形理解+相位概念延伸">
-                        <span class="hidden-mobile">【知识补充】CPM波形理解+相位概念延伸</span>
+                      <a href="/2025/09/23/MIMO%E7%9B%B8%E5%85%B3/" title="【知识补充】MIMO体系与参数">
+                        <span class="hidden-mobile">【知识补充】MIMO体系与参数</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
